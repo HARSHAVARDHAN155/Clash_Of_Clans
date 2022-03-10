@@ -36,29 +36,55 @@ class Screen:
 
     def place_object(self, obj):
         print("\033[0;0H")
-        pos, size, height, width, maxsize,health_val = obj.get_dimension()
+        pos, size, height, width, maxsize,health_val,damage = obj.get_dimension()
         structure = obj.get_structure()
         health = obj.get_health()
         # print(height,width,pos[0],pos[1],size[0],size[1],maxsize[0],maxsize[1])
-        if(self._board[pos[1]][pos[0]+size[1]]!=' '):
-            pos[0]=pos[0]-3
-        if(self._board[pos[1]+size[0]][pos[0]]!=' '):
-            pos[1]=pos[1]-1
-        if(self._board[pos[1]][pos[0]-1]!=' '):
-            pos[0]=pos[0]+2
-        if(self._board[pos[1]-1][pos[0]]!=' '):
-            pos[1]=pos[1]+1.5
-        
-        for i in range(pos[1], pos[1]+size[0]):
-            for j in range(pos[0], pos[0]+size[1]):
-                if(self._board[i][j] == ' '):
-                    self._board[i][j] = structure[i-pos[1]][j-pos[0]]
+        # if(self._board[pos[1]][pos[0]+size[1]]!=' '):
+        #     pos[0]=pos[0]-1
+        # if(self._board[pos[1]+size[0]][pos[0]]!=' '):
+        #     pos[1]=pos[1]-1
+        # if(self._board[pos[1]][pos[0]-1]!=' '):
+        #     pos[0]=pos[0]+1
+        # if(self._board[pos[1]-1][pos[0]]!=' '):
+        #     pos[1]=pos[1]+1
+            
+            
+        if width==1 :
+            if health_val > 0 :
+                for i in range(pos[1], pos[1]+size[0]):
+                    for j in range(pos[0], pos[0]+size[1]):
+                        if(self._board[i][j] == ' '):
+                            if(health_val>90):
+                                structure[i-pos[1]][j-pos[0]] = bg.green+' '+reset
+                            elif (health_val>50):
+                               structure[i-pos[1]][j-pos[0]] = bg.yellow+' '+reset
+                            else:
+                                structure[i-pos[1]][j-pos[0]] =bg.red+' '+reset
+                            
+                            self._board[i][j] = structure[i-pos[1]][j-pos[0]]
+                
 
-        # pos[1]=pos[1]-2
-        for i in range(pos[1], pos[1]+1):
-            for j in range(pos[0], pos[0]+size[1]):
-                    self._board[i][j] = health[i-pos[1]][j-pos[0]]
-                    
+            
+        else:
+            if health_val > 0 :
+                for i in range(pos[1], pos[1]+size[0]):
+                    for j in range(pos[0], pos[0]+size[1]):
+                        if(self._board[i][j] == ' '):
+                            self._board[i][j] = structure[i-pos[1]][j-pos[0]]
+                for i in range(2):
+                    for j in range(size[1]):
+                        if(health_val>90):
+                            health[i][j] = bg.green+' '+reset
+                        elif (health_val>50):
+                            health[i][j] = bg.yellow+' '+reset
+                        else:
+                            health[i][j] =bg.red+' '+reset
+                # pos[1]=pos[1]-2
+                for i in range(pos[1], pos[1]+1):
+                    for j in range(pos[0], pos[0]+size[1]):
+                            self._board[i-2][j] = health[i-pos[1]][j-pos[0]]
+                        
                     
     def reset_screen(self):
         # Adjust and start a screen/.,
