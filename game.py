@@ -206,36 +206,36 @@ class Game:
             self._sk1=1
         if(self._sk1==1):
             self._screen.place_object(self._barbarian_k)
-            # self.barbarian_attackp1()
+            self.barbarian_attackj1()
         if(self._kcounter==2):
             self._sk2=1
         
         if(self._sk2==1):
             self._screen.place_object(self._barbarian_k1)
-            # self.barbarian_attackp2()
+            self.barbarian_attackj2()
         if(self._kcounter==3):
             self._sk3=1
         if(self._sk3==1):
             self._screen.place_object(self._barbarian_k2)
-            # self.barbarian_attackp3()
+            self.barbarian_attackj3()
             
          ## L counter   
         if(self._lcounter==1):
             self._sl1=1
         if(self._sl1==1):
             self._screen.place_object(self._barbarian_l)
-            # self.barbarian_attackp1()
+            self.barbarian_attackl1()
         if(self._lcounter==2):
             self._sl2=1
             
         if(self._sl2==1):
             self._screen.place_object(self._barbarian_l1)
-            # self.barbarian_attackp2()
+            self.barbarian_attackl2()
         if(self._lcounter==3):
             self._sl3=1
         if(self._sl3==1):
             self._screen.place_object(self._barbarian_l2)
-            # self.barbarian_attackp3()
+            self.barbarian_attackl3()
 
     def king_attack(self):
         pos, size, height, width, maxsize, health_val, damage = self._king.get_dimension()
@@ -562,7 +562,433 @@ class Game:
                     if(self._hut5.hut_health()==0):
                         mm=10000
                         # self.barbarian_attack1()
-               
+                        
+    def barbarian_attackj1(self):
+        h1=self._hut1.hut_health()
+        h2=self._hut2.hut_health()
+        h3=self._hut3.hut_health()
+        h4=self._hut4.hut_health()
+        h5=self._hut5.hut_health()
+        self._listh = [h1,h2,h3,h4,h5]
+        pos, size, height, width, maxsize,health_val,damage = self._barbarian_k.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        # print("wall health:",wall_health,end=" ")
+        mm = 10000
+        index =10
+        for i in range(5):
+           
+            if(self._listh[i]>0):
+                print("range",i,self._listh[i],end=" ")
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif<mm):
+                    mm = dif
+                    index =i
+        if((wall_health>0)and(pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6)))and ((pos[1]+1==(int(self._height/2) - 5+10))or (pos[1]-1==(int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+             # sleep(2)
+        elif(((wall_health_up>0)and (pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6))))and(((pos[1]+1==(int(self._height/2) - 5))or(pos[1]-1==(int(self._height/2) - 5))))):
+                    self._wall_up.update_health(damage)
+        else:
+            print("cm",pos[0],pos[1],end=" ")
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index!=10 and  self._listx[index]>pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]+=1
+            elif (index!=10 and  self._listx[index]<pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]-=1 
+            elif(index!=10 and  self._listy[index]>pos[1] and  self._listy[index]-1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]+=1
+            elif (index!=10 and  self._listy[index]<pos[1] and  self._listy[index]+1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]-=1
+            else:
+                if(index==0):
+                    self._hut1.update_health(damage)
+                    
+                    if(self._hut1.hut_health()==0):
+                        print("hut1",end=" ")
+                        mm=10000
+                        sleep(2)
+                        # self.barbarian_attack1()
+                if(index==1):
+                    print("hut2",end=" ")
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==2):
+                    print("hut3",end=" ")
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==3):
+                    print("hut5",end=" ")
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==4):
+                    print("hut5",end=" ")
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+    
+    
+    def barbarian_attackj2(self):
+        h1=self._hut1.hut_health()
+        h2=self._hut2.hut_health()
+        h3=self._hut3.hut_health()
+        h4=self._hut4.hut_health()
+        h5=self._hut5.hut_health()
+        self._listh = [h1,h2,h3,h4,h5]
+        pos, size, height, width, maxsize,health_val,damage = self._barbarian_k1.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        # print("wall health:",wall_health,end=" ")
+        mm = 10000
+        index =10
+        for i in range(5):
+           
+            if(self._listh[i]>0):
+                print("range",i,self._listh[i],end=" ")
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif<mm):
+                    mm = dif
+                    index =i
+        if((wall_health>0)and(pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6)))and ((pos[1]+1==(int(self._height/2) - 5+10))or (pos[1]-1==(int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+        elif(((wall_health_up>0)and (pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6))))and(((pos[1]+1==(int(self._height/2) - 5))or(pos[1]-1==(int(self._height/2) - 5))))):
+            
+                    self._wall_up.update_health(damage)     # sleep(2)
+        else:
+            print("cm",pos[0],pos[1],end=" ")
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index!=10 and  self._listx[index]>pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]+=1
+            elif (index!=10 and  self._listx[index]<pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]-=1 
+            elif(index!=10 and  self._listy[index]>pos[1] and  self._listy[index]-1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]+=1
+            elif (index!=10 and  self._listy[index]<pos[1] and  self._listy[index]+1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]-=1
+            else:
+                if(index==0):
+                    self._hut1.update_health(damage)
+                    
+                    if(self._hut1.hut_health()==0):
+                        print("hut1",end=" ")
+                        mm=10000
+                        sleep(2)
+                        # self.barbarian_attack1()
+                if(index==1):
+                    print("hut2",end=" ")
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==2):
+                    print("hut3",end=" ")
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==3):
+                    print("hut5",end=" ")
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==4):
+                    print("hut5",end=" ")
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+    
+    def barbarian_attackj3(self):
+        h1=self._hut1.hut_health()
+        h2=self._hut2.hut_health()
+        h3=self._hut3.hut_health()
+        h4=self._hut4.hut_health()
+        h5=self._hut5.hut_health()
+        self._listh = [h1,h2,h3,h4,h5]
+        pos, size, height, width, maxsize,health_val,damage = self._barbarian_k2.get_dimension()
+        wall_health_down = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        # print("wall health:",wall_health,end=" ")
+        mm = 10000
+        index =10
+        for i in range(5):
+           
+            if(self._listh[i]>0):
+                print("range",i,self._listh[i],end=" ")
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif<mm):
+                    mm = dif
+                    index =i
+        if((wall_health_down>0)and(pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6)))and ((pos[1]+1==(int(self._height/2) - 5+10))or (pos[1]-1==(int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+             # sleep(2)
+        elif(((wall_health_up>0)and (pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6))))and(((pos[1]+1==(int(self._height/2) - 5))or(pos[1]-1==(int(self._height/2) - 5))))):
+                    self._wall_up.update_health(damage)
+        else:
+            print("cm",pos[0],pos[1],end=" ")
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index!=10 and  self._listx[index]>pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]+=1
+            elif (index!=10 and  self._listx[index]<pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]-=1 
+            elif(index!=10 and  self._listy[index]>pos[1] and  self._listy[index]-1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]+=1
+            elif (index!=10 and  self._listy[index]<pos[1] and  self._listy[index]+1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]-=1
+            else:
+                if(index==0):
+                    self._hut1.update_health(damage)
+                    
+                    if(self._hut1.hut_health()==0):
+                        print("hut1",end=" ")
+                        mm=10000
+                        sleep(2)
+                        # self.barbarian_attack1()
+                if(index==1):
+                    print("hut2",end=" ")
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==2):
+                    print("hut3",end=" ")
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==3):
+                    print("hut5",end=" ")
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==4):
+                    print("hut5",end=" ")
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+    def barbarian_attackl1(self):
+        h1=self._hut1.hut_health()
+        h2=self._hut2.hut_health()
+        h3=self._hut3.hut_health()
+        h4=self._hut4.hut_health()
+        h5=self._hut5.hut_health()
+        self._listh = [h1,h2,h3,h4,h5]
+        pos, size, height, width, maxsize,health_val,damage = self._barbarian_l.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        # print("wall health:",wall_health,end=" ")
+        mm = 10000
+        index =10
+        for i in range(5):
+           
+            if(self._listh[i]>0):
+                print("range",i,self._listh[i],end=" ")
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif<mm):
+                    mm = dif
+                    index =i
+        if((wall_health>0)and(pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6)))and ((pos[1]+1==(int(self._height/2) - 5+10))or (pos[1]-1==(int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+             # sleep(2)
+        elif(((wall_health_up>0)and (pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6))))and(((pos[1]+1==(int(self._height/2) - 5))or(pos[1]-1==(int(self._height/2) - 5))))):
+                    self._wall_up.update_health(damage)
+        else:
+            print("cm",pos[0],pos[1],end=" ")
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index!=10 and  self._listx[index]>pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]+=1
+            elif (index!=10 and  self._listx[index]<pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]-=1 
+            elif(index!=10 and  self._listy[index]>pos[1] and  self._listy[index]-1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]+=1
+            elif (index!=10 and  self._listy[index]<pos[1] and  self._listy[index]+1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]-=1
+            else:
+                if(index==0):
+                    self._hut1.update_health(damage)
+                    
+                    if(self._hut1.hut_health()==0):
+                        print("hut1",end=" ")
+                        mm=10000
+                        sleep(2)
+                        # self.barbarian_attack1()
+                if(index==1):
+                    print("hut2",end=" ")
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==2):
+                    print("hut3",end=" ")
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==3):
+                    print("hut5",end=" ")
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==4):
+                    print("hut5",end=" ")
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+    
+    
+    def barbarian_attackl2(self):
+        h1=self._hut1.hut_health()
+        h2=self._hut2.hut_health()
+        h3=self._hut3.hut_health()
+        h4=self._hut4.hut_health()
+        h5=self._hut5.hut_health()
+        self._listh = [h1,h2,h3,h4,h5]
+        pos, size, height, width, maxsize,health_val,damage = self._barbarian_l1.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        # print("wall health:",wall_health,end=" ")
+        mm = 10000
+        index =10
+        for i in range(5):
+           
+            if(self._listh[i]>0):
+                print("range",i,self._listh[i],end=" ")
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif<mm):
+                    mm = dif
+                    index =i
+        if((wall_health>0)and(pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6)))and ((pos[1]+1==(int(self._height/2) - 5+10))or (pos[1]-1==(int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+        elif(((wall_health_up>0)and (pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6))))and(((pos[1]+1==(int(self._height/2) - 5))or(pos[1]-1==(int(self._height/2) - 5))))):
+            
+                    self._wall_up.update_health(damage)     # sleep(2)
+        else:
+            print("cm",pos[0],pos[1],end=" ")
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index!=10 and  self._listx[index]>pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]+=1
+            elif (index!=10 and  self._listx[index]<pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]-=1 
+            elif(index!=10 and  self._listy[index]>pos[1] and  self._listy[index]-1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]+=1
+            elif (index!=10 and  self._listy[index]<pos[1] and  self._listy[index]+1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]-=1
+            else:
+                if(index==0):
+                    self._hut1.update_health(damage)
+                    
+                    if(self._hut1.hut_health()==0):
+                        print("hut1",end=" ")
+                        mm=10000
+                        sleep(2)
+                        # self.barbarian_attack1()
+                if(index==1):
+                    print("hut2",end=" ")
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==2):
+                    print("hut3",end=" ")
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==3):
+                    print("hut5",end=" ")
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==4):
+                    print("hut5",end=" ")
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+    
+    def barbarian_attackl3(self):
+        h1=self._hut1.hut_health()
+        h2=self._hut2.hut_health()
+        h3=self._hut3.hut_health()
+        h4=self._hut4.hut_health()
+        h5=self._hut5.hut_health()
+        self._listh = [h1,h2,h3,h4,h5]
+        pos, size, height, width, maxsize,health_val,damage = self._barbarian_l2.get_dimension()
+        wall_health_down = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        # print("wall health:",wall_health,end=" ")
+        mm = 10000
+        index =10
+        for i in range(5):
+           
+            if(self._listh[i]>0):
+                print("range",i,self._listh[i],end=" ")
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif<mm):
+                    mm = dif
+                    index =i
+        if((wall_health_down>0)and(pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6)))and ((pos[1]+1==(int(self._height/2) - 5+10))or (pos[1]-1==(int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+             # sleep(2)
+        elif(((wall_health_up>0)and (pos[0]<=(int(self._width/2)-6+18)and(pos[0]>=(int(self._width/2)-6))))and(((pos[1]+1==(int(self._height/2) - 5))or(pos[1]-1==(int(self._height/2) - 5))))):
+                    self._wall_up.update_health(damage)
+        else:
+            print("cm",pos[0],pos[1],end=" ")
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index!=10 and  self._listx[index]>pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]+=1
+            elif (index!=10 and  self._listx[index]<pos[0] and  self._listx[index]!=pos[0]):
+                pos[0]-=1 
+            elif(index!=10 and  self._listy[index]>pos[1] and  self._listy[index]-1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]+=1
+            elif (index!=10 and  self._listy[index]<pos[1] and  self._listy[index]+1!=pos[1] and self._listx[index]==pos[0]):
+                pos[1]-=1
+            else:
+                if(index==0):
+                    self._hut1.update_health(damage)
+                    
+                    if(self._hut1.hut_health()==0):
+                        print("hut1",end=" ")
+                        mm=10000
+                        sleep(2)
+                        # self.barbarian_attack1()
+                if(index==1):
+                    print("hut2",end=" ")
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==2):
+                    print("hut3",end=" ")
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==3):
+                    print("hut5",end=" ")
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()
+                if(index==4):
+                    print("hut5",end=" ")
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health()==0):
+                        mm=10000
+                        # self.barbarian_attack1()          
     def key_board_interrupt(self):
         get = Get()
         ch = input_to(get.__call__)
