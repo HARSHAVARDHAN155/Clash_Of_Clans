@@ -91,8 +91,8 @@ class King(Item):
                 else:
                     self._health[i][j] =bg.red+' '+reset
                     
-    def king_pos(self):
-        return [self._pos]
+    def item_pos(self):
+        return self._pos
 
     def move(self, ch):
         if(ch == 'd'):
@@ -153,7 +153,7 @@ class Cannon(Item):
             (self._size[0], self._size[1]), dtype='object')
         for i in range(self._size[0]):
             for j in range(self._size[1]):
-                self._structure[i][j] = bg.purple+' '+reset
+                self._structure[i][j] = bg.lightgrey+' '+reset
                 if(j == 2 and i != 0 and i != size[0]-1):
                     self._structure[i][j] = bg.black+'  '+reset
                     self._structure[i][j] = 'C'+reset+bold
@@ -170,7 +170,8 @@ class Cannon(Item):
                     
     def update_health(self,damage):
         self._health_val = self._health_val - damage
-        
+    def item_pos(self):
+        return self._pos 
         
 class Wall(Item):
     def __init__(self, pos, size, height, width, maxsize,health_val,damage):
@@ -223,9 +224,9 @@ class Barbarian(Item):
                     self._health[i][j] = bg.yellow+' '+reset
                 else:
                     self._health[i][j] =bg.red+' '+reset
-    
-        
-                    
+           
+    def item_pos(self):
+        return self._pos               
                 
     def update_health(self,damage):
         self._health_val = self._health_val - damage
