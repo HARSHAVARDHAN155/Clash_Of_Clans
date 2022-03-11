@@ -142,6 +142,8 @@ class Hut(Item):
     
     def update_health(self,damage):
         self._health_val = self._health_val - damage
+    def hut_health(self):
+        return self._health_val
         
 class Cannon(Item):
     def __init__(self, pos, size, height, width, maxsize,health_val,damage):
@@ -196,6 +198,35 @@ class Wall(Item):
                     
     def update_health(self,damage):
         self._health_val = self._health_val - damage
-
-
+    def wall_health(self):
+        return self._health_val
+        
+class Barbarian(Item):
+    
+    def __init__(self, pos, size, height, width, maxsize,health_val,damage):
+        super().__init__(pos, size, height, width, maxsize,health_val,damage) 
+        self._structure = np.zeros(
+            (self._size[0], self._size[1]), dtype='object')
+        for i in range(self._size[0]):
+            for j in range(self._size[1]):
+                self._structure[i][j] = bg.purple+' '+reset
+                if(j == 2 and i != 0 and i != size[0]-1):
+                    self._structure[i][j] = bg.black+'  '+reset
+                    self._structure[i][j] = 'B'+reset+bold
+        self._health = np.zeros(
+            (int(2), self._size[1]), dtype='object')
+        for i in range(2):
+            for j in range(size[1]):
+                if(self._health_val>50):
+                    self._health[i][j] = bg.green+' '+reset
+                elif (self._health_val>20):
+                    self._health[i][j] = bg.yellow+' '+reset
+                else:
+                    self._health[i][j] =bg.red+' '+reset
+    
+        
+                    
+                
+    def update_health(self,damage):
+        self._health_val = self._health_val - damage
     
