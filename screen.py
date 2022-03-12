@@ -1,5 +1,6 @@
 
 import struct
+import sys
 import numpy as np
 from zmq import HEARTBEAT_IVL
 
@@ -101,3 +102,39 @@ class Screen:
                 # Left and Right Wall
                 elif(j == 1 or j == self._width-1):
                     self._board[i][j] = bg.green+' '+reset
+    def game_won(self):
+
+        print("\033[2J")  # clear the screen!!
+        print("\033[0;0H")
+        message = '''
+              __     __          __          ___       _       __
+              \ \   / /          \ \        / (_)     | |   _  \ \\
+               \ \_/ /__  _   _   \ \  /\  / / _ _ __ | |  (_)  | |
+                \   / _ \| | | |   \ \/  \/ / | | '_ \| |       | |
+                 | | (_) | |_| |    \  /\  /  | | | | |_|   _   | |
+                 |_|\___/ \__,_|     \/  \/   |_|_| |_(_)  (_)  | |
+                                                                /_/
+                '''
+
+        print("\n\n\n\n\n\n\n\n\n")
+        print(fg.green + message + reset)
+        print("\n\n\n\n\n\n\n\n\n\n")
+        sys.exit(0)
+    
+    def game_lost(self):
+        print("\033[2J")  # clear the screen!!
+        print("\033[0;0H")
+        message = '''
+                __     __           ___              __    _         __
+                \ \   / /           | |             | |   | |   _   / /
+                 \ \_/ /__  _   _   | |     ___  ___| |_  | |  (_) | |
+                  \   / _ \| | | |  | |    / _ \/ __| __| | |      | |
+                   | | (_) | |_| |  | |___| (_) \__ \ |_  |_|   _  | |
+                   |_|\___/ \__,_|  |______\___/|___/\__| (_)  (_) | |
+                                                                    \_\\
+        '''
+
+        print("\n\n\n\n\n\n\n\n\n")
+        print(fg.red + message + reset)
+        print("\n\n\n\n\n\n\n\n\n\n")
+        sys.exit(0)

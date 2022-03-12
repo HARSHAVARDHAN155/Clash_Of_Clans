@@ -63,7 +63,8 @@ class Town(Item):
     def update_health(self,damage):
         self._health_val = self._health_val - damage               
                
-
+    def get_health(self):
+        return self._health_val
 
 class King(Item):
     def __init__(self, pos, size, height, width, maxsize,health_val,damage):
@@ -172,6 +173,8 @@ class Cannon(Item):
         self._health_val = self._health_val - damage
     def item_pos(self):
         return self._pos 
+    def can_health(self):
+        return self._health_val 
         
 class Wall(Item):
     def __init__(self, pos, size, height, width, maxsize,health_val,damage):
@@ -230,4 +233,5 @@ class Barbarian(Item):
                 
     def update_health(self,damage):
         self._health_val = self._health_val - damage
+    
     
