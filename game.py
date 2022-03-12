@@ -58,50 +58,50 @@ class Game:
                           [3, 4], int(1), 1, [self._width, self._height], int(100), 0)
         # left wall
         self._wall_left = Wall([int(self._width/2)-3, int(self._height/2) - 5],
-                               [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                               [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left1 = Wall([int(self._width/2)-6, int(self._height/2) - 5+1],
                                 [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left2 = Wall([int(self._width/2)-6, int(self._height/2) - 3],
                                 [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left3 = Wall([int(self._width/2)-6, int(self._height/2) - 2],
-                                [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left4 = Wall([int(self._width/2)-6, int(self._height/2) - 1],
-                                [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left5 = Wall([int(self._width/2)-6, int(self._height/2)],
-                                [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left6 = Wall([int(self._width/2)-6, int(self._height/2) + 1],
-                                [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left7 = Wall([int(self._width/2)-6, int(self._height/2) + 2],
-                                [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left8 = Wall([int(self._width/2)-6, int(self._height/2) + 3],
-                                [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_left9 = Wall([int(self._width/2)-6, int(self._height/2) + 4],
-                                [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
 
         self._wall_right = Wall([int(self._width/2)+6+6, int(self._height/2) - 5],
-                                [1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
 
         self._wall_right1 = Wall([int(self._width/2)+6+6, int(self._height/2) - 4], [
                                  1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_right2 = Wall([int(self._width/2)+6+6, int(self._height/2) - 3], [
-                                 1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                 1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_right3 = Wall([int(self._width/2)+6+6, int(self._height/2) - 2], [
-                                 1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                 1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_right4 = Wall([int(self._width/2)+6+6, int(self._height/2) - 1], [
-                                 1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                 1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_right5 = Wall([int(self._width/2)+6+6, int(self._height/2)], [
-                                 1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                 1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_right6 = Wall([int(self._width/2)+6+6, int(self._height/2) + 1], [
                                  1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_right7 = Wall([int(self._width/2)+6+6, int(self._height/2) + 2], [
-                                 1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                 1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_right8 = Wall([int(self._width/2)+6+6, int(self._height/2) + 3], [
-                                 1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                 1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         self._wall_right9 = Wall([int(self._width/2)+6+6, int(self._height/2) + 4], [
-                                 1, 1], int(1), int(1), [self._width, self._height], int(10), 0)
+                                 1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
 
         self._wall_up = Wall([int(self._width/2)-6, int(self._height/2) - 5],
-                             [1, 18], int(1), int(1), [self._width, self._height], int(30), 0)
+                             [1, 18], int(1), int(1), [self._width, self._height], int(100), 0)
 
         # self._wall_up1 = Wall([int(self._width/2)-6+2, int(self._height/2) - 5], [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
         # self._wall_up2 = Wall([int(self._width/2)-6+1, int(self._height/2) - 5], [1, 1], int(1), int(1), [self._width, self._height], int(100), 0)
@@ -145,7 +145,7 @@ class Game:
         self._hut3 = Hut([int(28), int(20)], [1, 1], 1, 1, [
                          self._width, self._height], int(100), 0)
         self._hut4 = Hut([int((self._width-15)), int(3)], [1, 1],
-                         1, 1, [self._width, self._height], int(10), 0)
+                         1, 1, [self._width, self._height], int(100), 0)
         self._hut5 = Hut([int((self._width-15)), int(20)], [1, 1],
                          1, 1, [self._width, self._height], int(100), 0)
         self._cannon1 = Cannon([int(56), int(7)], [1, 1], 1, 0, [
@@ -333,7 +333,7 @@ class Game:
     def king_attack(self):
         pos, size, height, width, maxsize, health_val, damage = self._king.get_dimension()
 
-        print(self._kingattack)
+        # print(self._kingattack_falg, "king attack val:",self._kingattack)
         # print(pos[0],pos[1],"width/2:",int(self._width/2),"height/2:",int(self._height/2),"kingattack:",self._kingattack)
         # print("waal1 :",self._wall_left1)
         if(health_val >0):
@@ -356,37 +356,37 @@ class Game:
                 self._kingattack = 1
 
                 # huts
-            if((self._kingattack == 0) and (((pos[0]+2 == 12) and pos[1] == 3) or (pos[0]-2 == 12 and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == 12) or (pos[1]-2 == 3 and pos[0] == 12))):
+            if((self._kingattack == 1) and (((pos[0]+1 == 12) and pos[1] == 3) or (pos[0]-2 == 12 and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == 12) or (pos[1]-2 == 3 and pos[0] == 12))):
                 self._hut1.update_health(damage)
             else:
                 self._kingattack = 1
-            if((self._kingattack == 0) and (((pos[0]+2 == int((self._width/2))) and pos[1] == 3) or (pos[0]-2 == int((self._width/2)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width/2))) or (pos[1]-2 == 3 and pos[0] == int((self._width/2))))):
+            if((self._kingattack == 1) and (((pos[0]+1 == int((self._width/2))) and pos[1] == 3) or (pos[0]-2 == int((self._width/2)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width/2))) or (pos[1]-2 == 3 and pos[0] == int((self._width/2))))):
                 self._hut2.update_health(damage)
             else:
                 self._kingattack = 1
 
-            if((self._kingattack == 0) and (((pos[0]+2 == 28) and pos[1] == 20) or (pos[0]-2 == 28 and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == 28) or (pos[1]-2 == 20 and pos[0] == 28))):
+            if((self._kingattack == 1) and (((pos[0]+1 == 28) and pos[1] == 20) or (pos[0]-2 == 28 and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == 28) or (pos[1]-2 == 20 and pos[0] == 28))):
                 self._hut3.update_health(damage)
             else:
                 self._kingattack = 1
 
-            if((self._kingattack == 0) and (((pos[0]+2 == int((self._width-15))) and pos[1] == 3) or (pos[0]-2 == int((self._width-15)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width-15))) or (pos[1]-2 == 3 and pos[0] == int((self._width-15))))):
+            if((self._kingattack == 1) and (((pos[0]+1 == int((self._width-15))) and pos[1] == 3) or (pos[0]-2 == int((self._width-15)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width-15))) or (pos[1]-2 == 3 and pos[0] == int((self._width-15))))):
                 self._hut4.update_health(damage)
             else:
                 self._kingattack = 1
 
-            if((self._kingattack == 0) and (((pos[0]+2 == int((self._width-15))) and pos[1] == 20) or (pos[0]-2 == int((self._width-15)) and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == int((self._width-15))) or (pos[1]-2 == 20 and pos[0] == int((self._width-15))))):
+            if((self._kingattack == 1) and (((pos[0]+1 == int((self._width-15))) and pos[1] == 20) or (pos[0]-2 == int((self._width-15)) and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == int((self._width-15))) or (pos[1]-2 == 20 and pos[0] == int((self._width-15))))):
                 self._hut5.update_health(damage)
             else:
                 self._kingattack = 1
 
             # cannons
 
-            if((self._kingattack == 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+            if((self._kingattack == 0) and (((pos[0]+1 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
                 self._cannon1.update_health(damage)
             else:
                 self._kingattack = 1
-            if((self._kingattack == 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+            if((self._kingattack == 0) and (((pos[0]+1 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
                 self._cannon2.update_health(damage)
             else:
                 self._kingattack = 1
@@ -1325,14 +1325,63 @@ class Game:
             self._kcounter += 1
         elif ch == 'l':
             self._lcounter += 1
-        elif ch == 'x': # sword attack bonus
+        elif ch == 'x': # sword attack bonus continues press
             self.king_sword_attck()
-            # self._sword = 1 # for entire game
+        elif ch == 'r': # range spell
+            if(self._king._health_val>0):
+                self._king.range_spell()
+            if(self._barbarian_p._health_val>0 and self._sp1==1):
+                self._barbarian_p.range_spell()
+            if(self._barbarian_p1._health_val>0 and self._sp2==1):
+                self._barbarian_p1.range_spell()
+            if(self._barbarian_l._health_val>0 and self._sl1==1):
+                self._barbarian_l.range_spell()
+            if(self._barbarian_l1._health_val>0 and self._sl2==1):
+                self._barbarian_l1.range_spell()
+            if(self._barbarian_l2._health_val>0 and self._sl3==1):
+                self._barbarian_l2.range_spell()
+            if(self._barbarian_k._health_val>0 and self._sk1==1):
+                self._barbarian_k.range_spell()
+            if(self._barbarian_k1._health_val>0 and self._sk2==1):
+                self._barbarian_k1.range_spell()
+            if(self._barbarian_k2._health_val>0 and self._sk3==1):
+                self._barbarian_k2.range_spell()
+            if(self._barbarian_p1._health_val>0 and self._sp2==1):
+                self._barbarian_p1.range_spell()
+        elif ch == 't': # Heal spell
+            if(self._king._health_val>0):
+                self._king.heal_spell()
+            if(self._barbarian_p._health_val>0 and self._sp1==1):
+                self._barbarian_p.heal_spell()
+            if(self._barbarian_p1._health_val>0 and self._sp2==1):
+                self._barbarian_p1.heal_spell()
+            if(self._barbarian_l._health_val>0 and self._sl1==1):
+                self._barbarian_l.heal_spell()
+            if(self._barbarian_l1._health_val>0 and self._sl2==1):
+                self._barbarian_l1.heal_spell()
+            if(self._barbarian_l2._health_val>0 and self._sl3==1):
+                self._barbarian_l2.heal_spell()
+            if(self._barbarian_k._health_val>0 and self._sk1==1):
+                self._barbarian_k.heal_spell()
+            if(self._barbarian_k1._health_val>0 and self._sk2==1):
+                self._barbarian_k1.heal_spell()
+            if(self._barbarian_k2._health_val>0 and self._sk3==1):
+                self._barbarian_k2.heal_spell()
+            if(self._barbarian_p1._health_val>0 and self._sp2==1):
+                self._barbarian_p1.heal_spell()
         return ch    
 
     def run(self):
+        itteration = 0
         self.start()
-        f=open("replay/replay.txt","w")
+        # f=open("replay/replay.txt","w")
+        replay_number = open("replay/number.txt","r")
+        number = replay_number.readlines()
+        number_int = int (number[0])
+        number_int = number_int+1
+        f = open("replay/number.txt","w")
+        f.write(str(number_int))
+        replay = open("replay/"+str(number_int)+".txt","w")
         start_time=time.time()
         while True:
             self._screen.clean()
@@ -1340,7 +1389,7 @@ class Game:
             move=self.key_board_interrupt()
             curr_time=time.time()-start_time
             if(move!=None):
-                f.write("{} {}\n".format(move,curr_time))
+                replay.write("{} {}\n".format(move,itteration))
             self.king_attack()
             self.cannon_attack()
             # self.king_sword_attck()
@@ -1348,6 +1397,7 @@ class Game:
             self.result()
 
             self._screen.render_screen()
+            itteration+=1
 
 game = Game()
 game.run()

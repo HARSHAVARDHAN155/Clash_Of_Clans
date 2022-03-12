@@ -69,9 +69,9 @@ class Town(Item):
 class King(Item):
     def __init__(self, pos, size, height, width, maxsize,health_val,damage):
         super().__init__(pos, size, height, width, maxsize,health_val,damage)
-
+        self._mov = 1
   
-        
+        # speed = 1
             
         self._structure = np.zeros(
             (self._size[0], self._size[1]), dtype='object')
@@ -94,29 +94,38 @@ class King(Item):
                     
     def item_pos(self):
         return self._pos
-
+    def range_spell(self):
+        self._damage = 2 * self._damage
+        self._mov = 2 * self._mov
     def move(self, ch):
         if(ch == 'd'):
-            self._pos[0] = self._pos[0]+1
+            self._pos[0] = self._pos[0]+ self._mov
             if(self._pos[0]+self._size[0] >= self._maxsize[0]-1):
                 self._pos[0] = self._maxsize[0] - self._size[0] - 3
         elif(ch == 'a'):
-            self._pos[0] = self._pos[0]-1
+            self._pos[0] = self._pos[0]-self._mov
             if(self._pos[0] <= 4):
                 self._pos[0] = 4
         elif(ch == 'w'):
-            self._pos[1] = self._pos[1]-1
+            self._pos[1] = self._pos[1]-self._mov
             if(self._pos[1] <= 4):
                 self._pos[1] = 1
         elif(ch == 's'):
             if(self._pos[1]+self._size[1] >= self._maxsize[1]-1):
                 self._pos[1] = self._maxsize[1] - self._size[1]-2
             else:
-                self._pos[1] = self._pos[1]+1
+                self._pos[1] = self._pos[1]+self._mov
                     
                 
     def update_health(self,damage):
-        self._health_val = self._health_val - damage
+        if(self._health_val>0):
+         self._health_val = self._health_val - damage
+        
+    def heal_spell(self):
+        if(int(1.5*self._health_val) > 100 ):
+            self._health_val = 100
+        else :
+            self._health_val = int((1.5)*self._health_val)
 
 class Hut(Item):
     def __init__(self, pos, size, height, width, maxsize,health_val,damage):
@@ -145,7 +154,10 @@ class Hut(Item):
         self._health_val = self._health_val - damage
     def hut_health(self):
         return self._health_val
+    
+    
         
+    
 class Cannon(Item):
     def __init__(self, pos, size, height, width, maxsize,health_val,damage):
         super().__init__(pos, size, height, width, maxsize,health_val,damage)
@@ -234,4 +246,11 @@ class Barbarian(Item):
     def update_health(self,damage):
         self._health_val = self._health_val - damage
     
-    
+    def range_spell(self):
+        self._damage += self._damage
+        # self._mov = 2 * self._mov
+    def heal_spell(self):
+        if(int(1.5*self._health_val) > 100 ):
+            self._health_val = 100
+        else :
+            self._health_val = int((1.5)*self._health_val)
