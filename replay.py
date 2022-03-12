@@ -25,9 +25,7 @@ class Game:
         # self._leftx =[int(self._width/2)-6,]
         # self._lefty=[int(self._height/2) - 4,int(self._height/2) - 3,int(self._height/2) - 2,int(self._height/2) - 1,int(self._height/2) ,int(self._height/2)+1,int(self._height/2)+2,int(self._height/2)+3,int(self._height/2)+4]
         # self._rightx=[int(self._height/2) - 4,int(self._height/2) - 3,int(self._height/2) - 2,int(self._height/2) - 1,int(self._height/2) ,int(self._height/2) +1,int(self._height/2) +2,int(self._height/2) +3,int(self._height/2) +4]
-        self._kingattack = 1
-        self._sword =0
-        self._kingattack_falg =0
+        self._kingattack = 0
         self._sp1 = 0
         self._sp2 = 0
         self._sp3 = 0
@@ -324,163 +322,129 @@ class Game:
         if(self._sl3 == 1):
             self._screen.place_object(self._barbarian_l2)
             self.barbarian_attackl3()
-            
-        if(self._kingattack_falg==1):
-            self._kingattack = 0
 
-        if(self._sword==1):
-            self.king_sword_attck() 
     def king_attack(self):
         pos, size, height, width, maxsize, health_val, damage = self._king.get_dimension()
 
-        print(self._kingattack)
         # print(pos[0],pos[1],"width/2:",int(self._width/2),"height/2:",int(self._height/2),"kingattack:",self._kingattack)
         # print("waal1 :",self._wall_left1)
-        if(health_val >0):
-            if((self._kingattack == 0) and (pos[0]+1 == int(self._width/2)) and ((pos[1] == int(self._height/2 - 2)) or (pos[1] == int(self._height/2 - 1)) or (pos[1] == int(self._height/2)) or (pos[1] == int(self._height/2 + 1)))):
-                self._town.update_health(damage)
-            else:
-                self._kingattack = 1
-            if((self._kingattack == 0) and (pos[0]-1-3 == int(self._width/2)) and ((pos[1] == int(self._height/2 - 2)) or (pos[1] == int(self._height/2 - 1)) or (pos[1] == int(self._height/2)) or (pos[1] == int(self._height/2 + 1)))):
-                self._town.update_health(damage)
-            else:
-                self._kingattack = 1
+        if((self._kingattack == 0) and (pos[0]+1 == int(self._width/2)) and ((pos[1] == int(self._height/2 - 2)) or (pos[1] == int(self._height/2 - 1)) or (pos[1] == int(self._height/2)) or (pos[1] == int(self._height/2 + 1)))):
+            self._town.update_health(damage)
+        else:
+            self._kingattack = 0
+        if((self._kingattack == 0) and (pos[0]-1-3 == int(self._width/2)) and ((pos[1] == int(self._height/2 - 2)) or (pos[1] == int(self._height/2 - 1)) or (pos[1] == int(self._height/2)) or (pos[1] == int(self._height/2 + 1)))):
+            self._town.update_health(damage)
+        else:
+            self._kingattack = 0
 
-            if((self._kingattack == 0) and (pos[1]+3 == int(self._height/2 - 2)) and ((pos[0] == int(self._width/2)) or (pos[0] == int(self._width/2)) or (pos[0]+1 == int(self._width/2)) or (pos[0]+2 == int(self._width/2)) or (pos[0]+3 == int(self._width/2)))):
-                self._town.update_health(damage)
-            else:
-                self._kingattack = 1
-            if((self._kingattack == 0) and (pos[1]-4 == int(self._height/2 - 2)) and ((pos[0] == int(self._width/2)) or (pos[0]+3 == int(self._width/2)) or (pos[0]+4 == int(self._width/2)) or (pos[0]+2 == int(self._width/2)) or (pos[0]+1 == int(self._width/2)))):
-                self._town.update_health(damage)
-            else:
-                self._kingattack = 1
+        if((self._kingattack == 0) and (pos[1]+3 == int(self._height/2 - 2)) and ((pos[0] == int(self._width/2)) or (pos[0] == int(self._width/2)) or (pos[0]+1 == int(self._width/2)) or (pos[0]+2 == int(self._width/2)) or (pos[0]+3 == int(self._width/2)))):
+            self._town.update_health(damage)
+        else:
+            self._kingattack = 0
+        if((self._kingattack == 0) and (pos[1]-4 == int(self._height/2 - 2)) and ((pos[0] == int(self._width/2)) or (pos[0]+3 == int(self._width/2)) or (pos[0]+4 == int(self._width/2)) or (pos[0]+2 == int(self._width/2)) or (pos[0]+1 == int(self._width/2)))):
+            self._town.update_health(damage)
+        else:
+            self._kingattack = 0
 
-                # huts
-            if((self._kingattack == 0) and (((pos[0]+2 == 12) and pos[1] == 3) or (pos[0]-2 == 12 and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == 12) or (pos[1]-2 == 3 and pos[0] == 12))):
-                self._hut1.update_health(damage)
-            else:
-                self._kingattack = 1
-            if((self._kingattack == 0) and (((pos[0]+2 == int((self._width/2))) and pos[1] == 3) or (pos[0]-2 == int((self._width/2)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width/2))) or (pos[1]-2 == 3 and pos[0] == int((self._width/2))))):
-                self._hut2.update_health(damage)
-            else:
-                self._kingattack = 1
+            # huts
+        if((self._kingattack == 0) and (((pos[0]+2 == 12) and pos[1] == 3) or (pos[0]-2 == 12 and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == 12) or (pos[1]-2 == 3 and pos[0] == 12))):
+            self._hut1.update_health(damage)
+        else:
+            self._kingattack = 0
+        if((self._kingattack == 0) and (((pos[0]+2 == int((self._width/2))) and pos[1] == 3) or (pos[0]-2 == int((self._width/2)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width/2))) or (pos[1]-2 == 3 and pos[0] == int((self._width/2))))):
+            self._hut2.update_health(damage)
+        else:
+            self._kingattack = 0
 
-            if((self._kingattack == 0) and (((pos[0]+2 == 28) and pos[1] == 20) or (pos[0]-2 == 28 and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == 28) or (pos[1]-2 == 20 and pos[0] == 28))):
-                self._hut3.update_health(damage)
-            else:
-                self._kingattack = 1
+        if((self._kingattack == 0) and (((pos[0]+2 == 28) and pos[1] == 20) or (pos[0]-2 == 28 and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == 28) or (pos[1]-2 == 20 and pos[0] == 28))):
+            self._hut3.update_health(damage)
+        else:
+            self._kingattack = 0
 
-            if((self._kingattack == 0) and (((pos[0]+2 == int((self._width-15))) and pos[1] == 3) or (pos[0]-2 == int((self._width-15)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width-15))) or (pos[1]-2 == 3 and pos[0] == int((self._width-15))))):
-                self._hut4.update_health(damage)
-            else:
-                self._kingattack = 1
+        if((self._kingattack == 0) and (((pos[0]+2 == int((self._width-15))) and pos[1] == 3) or (pos[0]-2 == int((self._width-15)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width-15))) or (pos[1]-2 == 3 and pos[0] == int((self._width-15))))):
+            self._hut4.update_health(damage)
+        else:
+            self._kingattack = 0
 
-            if((self._kingattack == 0) and (((pos[0]+2 == int((self._width-15))) and pos[1] == 20) or (pos[0]-2 == int((self._width-15)) and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == int((self._width-15))) or (pos[1]-2 == 20 and pos[0] == int((self._width-15))))):
-                self._hut5.update_health(damage)
-            else:
-                self._kingattack = 1
+        if((self._kingattack == 0) and (((pos[0]+2 == int((self._width-15))) and pos[1] == 20) or (pos[0]-2 == int((self._width-15)) and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == int((self._width-15))) or (pos[1]-2 == 20 and pos[0] == int((self._width-15))))):
+            self._hut5.update_health(damage)
+        else:
+            self._kingattack = 0
 
-            # cannons
+          # cannons
 
-            if((self._kingattack == 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
-                self._cannon1.update_health(damage)
-            else:
-                self._kingattack = 1
-            if((self._kingattack == 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
-                self._cannon2.update_health(damage)
-            else:
-                self._kingattack = 1
+        if((self._kingattack == 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+            self._cannon1.update_health(damage)
+        else:
+            self._kingattack = 0
+        if((self._kingattack == 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+            self._cannon2.update_health(damage)
+        else:
+            self._kingattack = 0
 
-            # Walls
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 5+1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 5+1))):
-                self._wall_left1.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 3)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 3))):
-                self._wall_left2.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 2)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 2))):
-                self._wall_left3.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 1))):
-                self._wall_left4.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2))) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2)))):
-                self._wall_left5.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 1))):
-                self._wall_left6.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 2)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 2))):
-                self._wall_left7.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 3)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 3))):
-                self._wall_left8.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 4)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 4))):
-                self._wall_left9.update_health(damage)
+        # Walls
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 5+1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 5+1))):
+            self._wall_left1.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 3)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 3))):
+            self._wall_left2.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 2)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 2))):
+            self._wall_left3.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 1))):
+            self._wall_left4.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2))) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2)))):
+            self._wall_left5.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 1))):
+            self._wall_left6.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 2)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 2))):
+            self._wall_left7.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 3)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 3))):
+            self._wall_left8.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 4)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 4))):
+            self._wall_left9.update_health(damage)
 
-            # right
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 5+1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 5+1))):
-                self._wall_right1.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 3)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 3))):
-                self._wall_right2.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 2)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 2))):
-                self._wall_right3.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 1))):
-                self._wall_right4.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2))) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2)))):
-                self._wall_right5.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 1))):
-                self._wall_right6.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 2)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 2))):
-                self._wall_right7.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 3)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 3))):
-                self._wall_right8.update_health(damage)
-            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 4)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 4))):
-                self._wall_right9.update_health(damage)
+         # right
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 5+1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 5+1))):
+            self._wall_right1.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 3)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 3))):
+            self._wall_right2.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 2)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 2))):
+            self._wall_right3.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 1))):
+            self._wall_right4.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2))) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2)))):
+            self._wall_right5.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 1))):
+            self._wall_right6.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 2)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 2))):
+            self._wall_right7.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 3)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 3))):
+            self._wall_right8.update_health(damage)
+        if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 4)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 4))):
+            self._wall_right9.update_health(damage)
 
-            # up
+        # up
 
-            if(pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))):
-                if((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))):
-                    self._wall_up.update_health(damage)
-            # down
-            if(pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))):
-                if((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10))):
-                    self._wall_down.update_health(damage)
+        if(pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))):
+            if((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))):
+                self._wall_up.update_health(damage)
+        # down
+        if(pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))):
+            if((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10))):
+                self._wall_down.update_health(damage)
 
-    # def king_val(self):
-    #     self._kingattack = 1
+    def king_val(self):
+        self._kingattack = 1
 
     def result(self):
         
         if(self._town._health_val<=0 and self._hut1._health_val<=0 and self._hut2._health_val<=0 and self._hut3._health_val<=0 and self._hut4._health_val<=0 and self._hut5._health_val<=0):
             self._screen.game_won()
             
-        elif(self._king._health_val<=0 and self._barbarian_p._health_val<=0 and self._barbarian_p1._health_val<=0 and self._barbarian_p2._health_val<=0 and self._barbarian_k._health_val<=0 and self._barbarian_k1._health_val<=0 and self._barbarian_k2._health_val<=0  
+        elif(self._king._health_val<=0 and self._barbarian_p._health_val<=0 and self._barbarian_p1._health_val<=0 and self._barbarian_p2._health_val<=0 and self._barbarian_k._health_val<=0 and self._barbarian_k1._health_val<=0 and self._barbarian_k2._health_val<=0 
             #  and self._barbarian_k._health_val<=0 and self._barbarian_k1._health_val<=0 and self._barbarian_k2._health_val<=0 and self._barbarian_l1._health_val<=0 and self._barbarian_l2._health_val<=0 and self._barbarian_l._health_val<=0 and self._barbarian_p._health_val<=0  and self._barbarian_p1._health_val<=0  and self._barbarian_p2._health_val<=0  ):
         ):
             self._screen.game_lost()
-    def king_sword_attck(self):
-        pos, size, height, width, maxsize, health_val, damage = self._king.get_dimension()
-        post, sizet, heightt, widtht, maxsizet, health_valt, damaget = self._town.get_dimension()
-        posh1, sizeh1, heighth1, widthh1, maxsizeh1, health_valh1, damageh1 = self._hut1.get_dimension()
-        posh2, sizeh2, heighth2, widthh2, maxsizeh2, health_valh2, damageh2 = self._hut2.get_dimension()
-        posh3, sizeh3, heighth3, widthh3, maxsizeh3, health_valh3, damageh3 = self._hut3.get_dimension()
-        posh4, sizeh4, heighth4, widthh4, maxsizeh4, health_valh4, damageh4 = self._hut4.get_dimension()       
-        posh5, sizeh5, heighth5, widthh5, maxsizeh5, health_valh5, damageh5 = self._hut5.get_dimension()
-        posc1, sizeh5, heighth5, widthh5, maxsizeh5, health_valh5, damageh5 = self._cannon1.get_dimension()
-        posc2, sizeh5, heighth5, widthh5, maxsizeh5, health_valh5, damageh5 = self._cannon2.get_dimension()
-        if(health_val > 0):
-            if(post[0] >= (health_val > 0 and pos[0]-5) and (post[0] <= (pos[0]+5)) and (post[1] >= (pos[1]-5) and (post[1] <= (pos[1]+5)))):
-                self._town.update_health(damage)
-            if(posh1[0] >= (health_val > 0 and pos[0]-5) and (posh1[0] <= (pos[0]+5)) and (posh1[1] >= (pos[1]-5) and (posh1[1] <= (pos[1]+5)))):
-                self._hut1.update_health(damage)
-            if(posh2[0] >= (health_val > 0 and pos[0]-5) and (posh2[0] <= (pos[0]+5)) and (posh2[1] >= (pos[1]-5) and (posh2[1] <= (pos[1]+5)))):
-                self._hut2.update_health(damage)
-            if(posh3[0] >= (health_val > 0 and pos[0]-5) and (posh3[0] <= (pos[0]+5)) and (posh3[1] >= (pos[1]-5) and (posh3[1] <= (pos[1]+5)))):
-                self._hut3.update_health(damage)
-            if(posh4[0] >= (health_val > 0 and pos[0]-5) and (posh4[0] <= (pos[0]+5)) and (posh4[1] >= (pos[1]-5) and (posh4[1] <= (pos[1]+5)))):
-                self._hut4.update_health(damage)
-            if(posh5[0] >= (health_val > 0 and pos[0]-5) and (posh5[0] <= (pos[0]+5)) and (posh5[1] >= (pos[1]-5) and (posh5[1] <= (pos[1]+5)))):
-                self._hut5.update_health(damage)
-            if(posc1[0] >= (health_val > 0 and pos[0]-5) and (posc1[0] <= (pos[0]+5)) and (posc1[1] >= (pos[1]-5) and (posc1[1] <= (pos[1]+5)))):
-                self._cannon1.update_health(damage)    
-            if(posc2[0] >= (health_val > 0 and pos[0]-5) and (posc2[0] <= (pos[0]+5)) and (posc2[1] >= (pos[1]-5) and (posc2[1] <= (pos[1]+5)))):
-                self._cannon2.update_health(damage)
-               
+
     def barbarian_attackp1(self):
         h1 = self._hut1.hut_health()
         h2 = self._hut2.hut_health()
@@ -1318,32 +1282,56 @@ class Game:
         elif ch == 's':
             self._king.move(ch)
         elif ch == ' ':
-            self._kingattack_falg = 1
+            self._kingattack = 1
         elif ch == 'p':
             self._pcounter += 1
         elif ch == 'j':
             self._kcounter += 1
         elif ch == 'l':
             self._lcounter += 1
-        elif ch == 'x': # sword attack bonus
-            self.king_sword_attck()
-            # self._sword = 1 # for entire game
         return ch    
 
     def run(self):
         self.start()
-        f=open("replay/replay.txt","w")
+        f=open("replay/replay.txt","r")
         start_time=time.time()
+        curr_move=0
+        moves=[]
+        times=[]
+        lines=f.readlines()
+        for line in lines:
+            words=line.split(" ")
+            if(len(words)==3):
+                moves.append(" ")
+                x=words[2].rstrip("\n")
+                times.append(float(x))
+            else:
+                y=words[1].rstrip("\n")
+                moves.append(words[0])
+                times.append(float(y))                            
         while True:
             self._screen.clean()
             self._screen.reset_screen()
-            move=self.key_board_interrupt()
-            curr_time=time.time()-start_time
-            if(move!=None):
-                f.write("{} {}\n".format(move,curr_time))
+            if(curr_move >= len(moves) or time.time()-start_time<times[curr_move]):
+                self._king.move("r")
+            elif(curr_move<len(moves)):
+                if(moves[curr_move]=="w" or moves[curr_move]=="a" or moves[curr_move]=="s" or moves[curr_move]=="d" or moves[curr_move]==" "):                                        
+                    self._king.move(moves[curr_move])
+                    curr_move+=1
+                elif(moves[curr_move]=="p"):
+                    self._pcounter+=1
+                    curr_move+=1
+                elif(moves[curr_move]=="j"):
+                    self._kcounter+=1
+                    curr_move+=1
+                elif(moves[curr_move]=="l"):
+                    self._lcounter+=1
+                    curr_move+=1
+                elif(moves[curr_move]=="q"):
+                    curr_move+=1
+                    break                         
             self.king_attack()
             self.cannon_attack()
-            # self.king_sword_attck()
             self.placing()
             self.result()
 
