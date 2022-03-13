@@ -1,8 +1,9 @@
+import sys
+sys.path.insert(0, './src')
 from cmath import sqrt
 from mimetypes import init
 from operator import ipow
 import os
-import sys
 import time
 import numpy as np
 from color import *
@@ -11,6 +12,8 @@ from objects import Town
 from screen import Screen
 from input import input_to
 from input import Get
+import threading
+from playsound import playsound
 
 KEYS = ['a', 'd']
 
@@ -176,32 +179,50 @@ class Game:
         # print(kingpos[0], kingpos[1], pos[1], pos[0])
         if(kingpos[0] >= (health_val > 0 and pos[0]-5) and (kingpos[0] <= (pos[0]+5)) and (kingpos[1] >= (pos[1]-5)) and (kingpos[1] <= (pos[1]+5))) or ((health_val1 > 0 and kingpos[0] >= (pos1[0]-5) and (kingpos[0] <= (pos1[0]+5)) and (kingpos[1] >= (pos1[1]-5)) and (kingpos[1] <= (pos1[1]+5)))):
             self._king.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
         elif(self._sp1 == 1 and ((health_val > 0 and p1[0] >= (pos[0]-5) and (p1[0] <= (pos[0]+5)) and (p1[1] >= (pos[1]-5)) and (p1[1] <= (pos[1]+5))) or ((health_val1 > 0 and p1[0] >= (pos1[0]-5) and (p1[0] <= (pos1[0]+5)) and (p1[1] >= (pos1[1]-5)) and (p1[1] <= (pos1[1]+5)))))):
             self._barbarian_p.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
 
         elif(self._sp2 == 1 and ((health_val > 0 and p2[0] >= (pos[0]-5) and (p2[0] <= (pos[0]+5)) and (p2[1] >= (pos[1]-5)) and (p2[1] <= (pos[1]+5))) or ((health_val1 > 0 and p2[0] >= (pos1[0]-5) and (p2[0] <= (pos1[0]+5)) and (p2[1] >= (pos1[1]-5)) and (p2[1] <= (pos1[1]+5)))))):
             self._barbarian_p1.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
 
         elif(self._sp3 == 1 and ((health_val > 0 and p3[0] >= (pos[0]-5) and (p3[0] <= (pos[0]+5)) and (p3[1] >= (pos[1]-5)) and (p3[1] <= (pos[1]+5))) or ((health_val1 > 0 and p3[0] >= (pos1[0]-5) and (p3[0] <= (pos1[0]+5)) and (p3[1] >= (pos1[1]-5)) and (p3[1] <= (pos1[1]+5)))))):
             self._barbarian_p2.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
 
         elif(self._sk1 == 1 and ((health_val > 0 and j1[0] >= (pos[0]-5) and (j1[0] <= (pos[0]+5)) and (j1[1] >= (pos[1]-5)) and (j1[1] <= (pos[1]+5))) or ((health_val1 > 0 and j1[0] >= (pos1[0]-5) and (j1[0] <= (pos1[0]+5)) and (j1[1] >= (pos1[1]-5)) and (j1[1] <= (pos1[1]+5)))))):
             self._barbarian_k.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
 
         elif(self._sk2 == 1 and ((health_val > 0 and j2[0] >= (pos[0]-5) and (j2[0] <= (pos[0]+5)) and (j2[1] >= (pos[1]-5)) and (j2[1] <= (pos[1]+5))) or ((health_val1 > 0 and j2[0] >= (pos1[0]-5) and (j2[0] <= (pos1[0]+5)) and (j2[1] >= (pos1[1]-5)) and (j2[1] <= (pos1[1]+5)))))):
             self._barbarian_k1.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
 
         elif(self._sk3 == 1 and ((j3[0] >= (pos[0]-5) and (j3[0] <= (pos[0]+5)) and (j3[1] >= (pos[1]-5)) and (j3[1] <= (pos[1]+5))) or ((j3[0] >= (pos1[0]-5) and (health_val1 > 0 and j3[0] <= (pos1[0]+5)) and (j3[1] >= (pos1[1]-5)) and (j3[1] <= (pos1[1]+5)))))):
             self._barbarian_k2.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
 
         elif(self._sl1 == 1 and ((health_val > 0 and l1[0] >= (pos[0]-5) and (l1[0] <= (pos[0]+5)) and (l1[1] >= (pos[1]-5)) and (l1[1] <= (pos[1]+5))) or ((health_val1 > 0 and l1[0] >= (pos1[0]-5) and (l1[0] <= (pos1[0]+5)) and (l1[1] >= (pos1[1]-5)) and (l1[1] <= (pos1[1]+5)))))):
             self._barbarian_l.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
 
         elif(self._sl2 == 1 and ((health_val > 0 and l2[0] >= (pos[0]-5) and (l2[0] <= (pos[0]+5)) and (l2[1] >= (pos[1]-5)) and (l2[1] <= (pos[1]+5))) or ((health_val1 > 0 and l2[0] >= (pos1[0]-5) and (l2[0] <= (pos1[0]+5)) and (l2[1] >= (pos1[1]-5)) and (l2[1] <= (pos1[1]+5)))))):
             self._barbarian_l1.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
 
         elif(self._sl3 == 1 and ((health_val > 0 and l3[0] >= (pos[0]-5) and (l3[0] <= (pos[0]+5)) and (l3[1] >= (pos[1]-5)) and (l3[1] <= (pos[1]+5))) or ((health_val1 > 0 and l3[0] >= (pos1[0]-5) and (l3[0] <= (pos1[0]+5)) and (l3[1] >= (pos1[1]-5)) and (l3[1] <= (pos1[1]+5)))))):
             self._barbarian_l2.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
 
     def placing(self):
         self._screen.place_object(self._town)
@@ -1313,10 +1334,13 @@ class Game:
             self._king.move(ch)
         elif ch == 'a':
             self._king.move(ch)
+            
         elif ch == 'w':
             self._king.move(ch)
+            
         elif ch == 's':
             self._king.move(ch)
+            
         elif ch == ' ':
             self._kingattack_falg = 1
         elif ch == 'p':
