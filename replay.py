@@ -9,13 +9,163 @@ import numpy as np
 from color import *
 from objects import Barbarian, Cannon, Hut, Item, King, Wall
 from objects import Town
-from screen import Screen
+# from screen import Screen
 from input import input_to
 from input import Get
 import threading
 from playsound import playsound
 
 KEYS = ['a', 'd']
+class Screen:
+    def __init__(self, height, width):
+        self._height = height
+        self._width = width
+        # self._board = np.array([[''for j in range(self._width)]
+        #                        for i in range(self._height)], dtype='object')
+
+        self._board = np.zeros((self._height, self._width), dtype='object')
+        for i in range(self._height):
+            for j in range(self._width):
+                self._board[i][j] = ''
+
+        print("\033[2J")  # CLAERING SCREEN
+
+    def clean(self):
+        # self._board = np.array([[''for j in range(self._width)]
+        #                        for i in range(self._height)], dtype='object')
+        self._board = np.zeros((self._height, self._width), dtype='object')
+        for i in range(self._height):
+            for j in range(self._width):
+                self._board[i][j] = ''
+        # set screen to begining
+        print("\033[0;0H")
+        i = 0
+        while i < self._height:
+            # for i in range(self._height):
+            j = 0
+            while j < self._width:
+                # for j in range(self._width):
+                print(self._board[i][j], end='')
+                j += 1
+            print(" ")
+            i += 1
+
+    def render_screen(self):
+        # set cursor to beginning
+        print("\033[0;0H")
+
+        # for i in range(self._height):
+        i = 0
+        while i < self._height:
+            # for j in range(self._width):
+            j = 0
+            while j < self._width:
+                print(self._board[i][j], end='')
+                j += 1
+            print("")
+            i += 1
+
+    def place_object(self, obj):
+        print("\033[0;0H")
+        pos, size, height, width, maxsize, health_val, damage = obj.get_dimension()
+        structure = obj.get_structure()
+        health = obj.get_health()
+        # print(height,width,pos[0],pos[1],size[0],size[1],maxsize[0],maxsize[1])
+        # if(self._board[pos[1]][pos[0]+size[1]]!=' '):
+        #     pos[0]=pos[0]-1
+        # if(self._board[pos[1]+size[0]][pos[0]]!=' '):
+        #     pos[1]=pos[1]-1
+        # if(self._board[pos[1]][pos[0]-1]!=' '):
+        #     pos[0]=pos[0]+1
+        # if(self._board[pos[1]-1][pos[0]]!=' '):
+        #     pos[1]=pos[1]+1
+
+        if width == 1:
+            if health_val > 0:
+                for i in range(pos[1], pos[1]+size[0]):
+                    for j in range(pos[0], pos[0]+size[1]):
+                        if(self._board[i][j] == ' '):
+                            if(health_val > 90):
+                                structure[i-pos[1]][j-pos[0]
+                                                    ] = bg.green+' '+reset
+                            elif (health_val > 50):
+                                structure[i-pos[1]][j-pos[0]
+                                                    ] = bg.yellow+' '+reset
+                            else:
+                                structure[i-pos[1]][j-pos[0]
+                                                    ] = bg.red+' '+reset
+
+                            self._board[i][j] = structure[i-pos[1]][j-pos[0]]
+
+        else:
+            if health_val > 0:
+                for i in range(pos[1], pos[1]+size[0]):
+                    for j in range(pos[0], pos[0]+size[1]):
+                        if(self._board[i][j] == ' '):
+                            self._board[i][j] = structure[i-pos[1]][j-pos[0]]
+                for i in range(2):
+                    for j in range(size[1]):
+                        if(health_val > 90):
+                            health[i][j] = bg.green+' '+reset
+                        elif (health_val > 50):
+                            health[i][j] = bg.yellow+' '+reset
+                        else:
+                            health[i][j] = bg.red+' '+reset
+                # pos[1]=pos[1]-2
+                for i in range(pos[1], pos[1]+1):
+                    for j in range(pos[0], pos[0]+size[1]):
+                        self._board[i-2][j] = health[i-pos[1]][j-pos[0]]
+
+    def reset_screen(self):
+        # Adjust and start a screen/.,
+        self._board = np.array([[' ' for j in range(self._width)]
+                               for i in range(self._height)], dtype='object')
+        # self._board = np.zeros((self._height, self._width), dtype='object')
+        # for i in range(self._height):
+        #     for j in range(self._width):
+        #         self._board[i][j] = ''
+        # Adjust the constant background
+        # setup walls
+        # for i in range(self._height):
+        i = 0
+        while i < self._height:
+            # for j in range(self._width):
+            j = 0
+            while j < self._width:
+                # Top wall and bottom
+                if(i == 0 or i == self._height-1):
+                    self._board[i][j] = bg.green+' '+reset
+                # Left and Right Wall
+                elif(j == 1 or j == self._width-1):
+                    self._board[i][j] = bg.green+' '+reset
+                j += 1
+            i += 1
+
+    def game_won(self):
+
+        print("\033[2J")  # clear the screen!!
+        print("\033[0;0H")
+        message = '''
+                    YOU WON
+                '''
+
+        print("\n\n\n\n\n")
+        print(fg.green + message + reset)
+        print("\n\n\n\n\n\n")
+        sys.exit(0)
+
+    def game_lost(self):
+        print("\033[2J")  # clear the screen!!
+        print("\033[0;0H")
+        message = '''
+            YOU LOST 
+        '''
+
+        print("\n\n\n")
+        print(fg.red + message + reset)
+        print("\n\n\n\n\n")
+        sys.exit(0)
+
 
 
 class Game:
@@ -462,7 +612,7 @@ class Game:
         if(self._town._health_val<=0 and self._hut1._health_val<=0 and self._hut2._health_val<=0 and self._hut3._health_val<=0 and self._hut4._health_val<=0 and self._hut5._health_val<=0):
             self._screen.game_won()
             
-        elif(self._king._health_val<=0 and self._barbarian_p._health_val<=0 and self._barbarian_p1._health_val<=0 and self._barbarian_p2._health_val<=0 and self._barbarian_k._health_val<=0 and self._barbarian_k1._health_val<=0 and self._barbarian_k2._health_val<=0  
+        elif(self._king._health_val<=0   
             #  and self._barbarian_k._health_val<=0 and self._barbarian_k1._health_val<=0 and self._barbarian_k2._health_val<=0 and self._barbarian_l1._health_val<=0 and self._barbarian_l2._health_val<=0 and self._barbarian_l._health_val<=0 and self._barbarian_p._health_val<=0  and self._barbarian_p1._health_val<=0  and self._barbarian_p2._health_val<=0  ):
         ):
             self._screen.game_lost()
@@ -1425,7 +1575,7 @@ class Game:
                 if(itteration == int(times[curr_move])):
                     time.sleep(0.1)
                     # curr_move+=1     
-                    print("coming")
+                    # print("coming")
                     ch = moves[curr_move]      
                     if(ch == 'q'):
                         sys.exit()
