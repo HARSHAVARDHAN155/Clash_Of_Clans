@@ -254,3 +254,32 @@ class Barbarian(Item):
             self._health_val = 100
         else :
             self._health_val = int((1.5)*self._health_val)
+            
+            
+class Archer(Item):
+    
+    def __init__(self, pos, size, height, width, maxsize,health_val,damage):
+        super().__init__(pos, size, height, width, maxsize,health_val,damage) 
+        self._structure = np.zeros(
+            (self._size[0], self._size[1]), dtype='object')
+        for i in range(self._size[0]):
+            for j in range(self._size[1]):
+                self._structure[i][j] = bg.blue +' '+reset
+        self._health = np.zeros(
+            (int(2), self._size[1]), dtype='object')
+        for i in range(2):
+            for j in range(size[1]):
+                if(self._health_val>30):
+                    self._health[i][j] = bg.green+' '+reset
+                elif (self._health_val>20):
+                    self._health[i][j] = bg.yellow+' '+reset
+                else:
+                    self._health[i][j] =bg.red+' '+reset
+           
+    def item_pos(self):
+        return self._pos               
+                
+    def update_health(self,damage):
+        self._health_val = self._health_val - damage
+    
+

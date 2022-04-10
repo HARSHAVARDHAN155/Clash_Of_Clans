@@ -7,7 +7,7 @@ import os
 import time
 import numpy as np
 from color import *
-from objects import Barbarian, Cannon, Hut, Item, King, Wall
+from objects import Archer, Barbarian, Cannon, Hut, Item, King, Wall
 from objects import Town
 # from screen import Screen
 from input import input_to
@@ -164,13 +164,24 @@ class Game:
         rows = int(rows)
         cols = int(cols)
         self.ran = 1
-        self._kingval = 1
+        self._kingval = 0
         # self._leftx =[int(self._width/2)-6,]
         # self._lefty=[int(self._height/2) - 4,int(self._height/2) - 3,int(self._height/2) - 2,int(self._height/2) - 1,int(self._height/2) ,int(self._height/2)+1,int(self._height/2)+2,int(self._height/2)+3,int(self._height/2)+4]
         # self._rightx=[int(self._height/2) - 4,int(self._height/2) - 3,int(self._height/2) - 2,int(self._height/2) - 1,int(self._height/2) ,int(self._height/2) +1,int(self._height/2) +2,int(self._height/2) +3,int(self._height/2) +4]
         self._kingattack = 1
         self._sword =0
         self._kingattack_falg =0
+        self._mcounter = 0
+        self._a1 = 0
+        self._a2 = 0
+        
+        self._ncounter = 0
+        self._n1 = 0
+        self._n2 = 0
+        self._bcounter = 0
+        self._b1 = 0
+        self._b2 = 0
+        
         self._sp1 = 0
         self._sp2 = 0
         self._sp3 = 0
@@ -281,6 +292,19 @@ class Game:
         self._barbarian_l2 = Barbarian([80, 25], [1, 1], 1, 2, [
                                        self._width, self._height], int(100), 1)
 
+        self._archer1 = Archer([81, 25], [1, 1], 1, 2, [
+                                      self._width, self._height], int(50), 1)
+        self._archer2 = Archer([81, 25], [1, 1], 1, 2, [
+                                      self._width, self._height], int(50), 1)
+        self._narcher1 = Archer([11, 25], [1, 1], 1, 2, [
+                                      self._width, self._height], int(50), 1)
+        self._narcher2 = Archer([11, 25], [1, 1], 1, 2, [
+                                      self._width, self._height], int(50), 1)
+        self._barcher1 = Archer([28, 25], [1, 1], 1, 2, [
+                                      self._width, self._height], int(50), 1)
+        self._barcher2 = Archer([28, 25], [1, 1], 1, 2, [
+                                      self._width, self._height], int(50), 1)
+        
         self._hut1 = Hut([int(12), int(3)], [1, 1], 1, 1, [
                          self._width, self._height], int(70), 0)
         self._hut2 = Hut([int((self._width/2)), int(3)], [1, 1],
@@ -411,12 +435,65 @@ class Game:
 
         if(self._kingval == 1):
             self._screen.place_object(self._king)
-
+            
+        # m counter archer
+        if(self._mcounter == 1 and self._a1 == 0):
+            self._a1 = 1
+        if(self._a1 == 1):
+            self._screen.place_object(self._archer1)
+            self.archer_attackm1()
+        if(self._mcounter == 2 and self._a2 == 0):
+            self._a2 = 1
+        if(self._a2 == 1):
+            self._screen.place_object(self._archer2)
+            self.archer_attackm2()
+        
+        if(self._archer2._health_val <= 0):
+            self._a2 = -1
+        if(self._archer1._health_val <= 0):
+            self._a1 = -1
+            
+        # n counter
+        if(self._ncounter == 1 and self._n1 == 0):
+            self._n1 = 1
+        if(self._n1 == 1):
+            self._screen.place_object(self._narcher1)
+            self.archer_nattackm1()
+        if(self._ncounter == 2 and self._n2 == 0):
+            self._n2 = 1
+        if(self._n2 == 1):
+            self._screen.place_object(self._narcher2)
+            self.archer_nattackm2()
+        
+        if(self._narcher2._health_val <= 0):
+            self._n2 = -1
+        if(self._narcher1._health_val <= 0):
+            self._n1 = -1
+            
+        # b counter
+        
+        if(self._bcounter == 1 and self._b1 == 0):
+            self._b1 = 1
+        if(self._b1 == 1):
+            self._screen.place_object(self._barcher1)
+            self.archer_battackm1()
+        if(self._bcounter == 2 and self._b2 == 0):
+            self._b2 = 1
+        if(self._b2 == 1):
+            self._screen.place_object(self._barcher2)
+            self.archer_battackm2()
+        
+        if(self._barcher2._health_val <= 0):
+            self._b2 = -1
+        if(self._barcher1._health_val <= 0):
+            self._b1 = -1
+        
         if(self._pcounter == 1 and self._sp1 == 0):
             self._sp1 = 1
         if(self._sp1 == 1):
             self._screen.place_object(self._barbarian_p)
             self.barbarian_attackp1()
+        
 
         if(self._barbarian_p._health_val <= 0):
             self._sp1 = -1
@@ -614,6 +691,574 @@ class Game:
             #  and self._barbarian_k._health_val<=0 and self._barbarian_k1._health_val<=0 and self._barbarian_k2._health_val<=0 and self._barbarian_l1._health_val<=0 and self._barbarian_l2._health_val<=0 and self._barbarian_l._health_val<=0 and self._barbarian_p._health_val<=0  and self._barbarian_p1._health_val<=0  and self._barbarian_p2._health_val<=0  ):
         ):
             self._screen.game_lost()
+            
+# n counter
+    def archer_nattackm2(self):
+        h1 = self._hut1.hut_health()
+        h2 = self._hut2.hut_health()
+        h3 = self._hut3.hut_health()
+        h4 = self._hut4.hut_health()
+        h5 = self._hut5.hut_health()
+        c1 = self._cannon1.can_health()
+        c2 = self._cannon2.can_health()
+        town = self._town.get_health()
+        self._listh = [h1, h2, h3, h4, h5, c1, c2, town]
+        pos, size, height, width, maxsize, health_val, damage = self._narcher2.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        can1 = self._cannon1.can_health()
+        can2 = self._cannon2.can_health()
+
+        # print("wall health:",wall_hea
+        # lth,end=" ")
+        mm = 10000
+        index = 10
+        for i in range(7):
+
+            if(self._listh[i] > 0):
+
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif < mm):
+                    mm = dif
+                    index = i
+        if((wall_health > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))) and ((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+            #
+        elif(((wall_health_up > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6)))) and (((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))))):
+            self._wall_up.update_health(damage)
+
+        elif((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+            self._cannon1.update_health(damage)
+
+        elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+            self._cannon2.update_health(damage)
+        else:
+
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                pos[0] += 1
+            elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                pos[0] -= 1
+            elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] += 1
+            elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] -= 1
+            else:
+                if(index == 0):
+                    self._hut1.update_health(damage)
+
+                    if(self._hut1.hut_health() == 0):
+
+                        mm = 10000
+
+                        # self.barbarian_attack1()
+                if(index == 1):
+
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 2):
+
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 3):
+
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 4):
+
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health() == 0):
+                        mm = 10000
+                if(index == 5):
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                        mm = 10000
+                if(index == 6):
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                        mm = 10000
+                if(index == 7):
+                    self._town.update_health(damage)
+                    if(self._town.get_health() == 0):
+                        mm = 10000
+    def archer_nattackm1(self):
+        h1 = self._hut1.hut_health()
+        h2 = self._hut2.hut_health()
+        h3 = self._hut3.hut_health()
+        h4 = self._hut4.hut_health()
+        h5 = self._hut5.hut_health()
+        c1 = self._cannon1.can_health()
+        c2 = self._cannon2.can_health()
+        town = self._town.get_health()
+        self._listh = [h1, h2, h3, h4, h5, c1, c2, town]
+        pos, size, height, width, maxsize, health_val, damage = self._narcher1.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        can1 = self._cannon1.can_health()
+        can2 = self._cannon2.can_health()
+
+        # print("wall health:",wall_hea
+        # lth,end=" ")
+        mm = 10000
+        index = 10
+        for i in range(7):
+
+            if(self._listh[i] > 0):
+
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif < mm):
+                    mm = dif
+                    index = i
+        if((wall_health > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))) and ((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+            #
+        elif(((wall_health_up > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6)))) and (((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))))):
+            self._wall_up.update_health(damage)
+
+        elif((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+            self._cannon1.update_health(damage)
+
+        elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+            self._cannon2.update_health(damage)
+        else:
+
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                pos[0] += 1
+            elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                pos[0] -= 1
+            elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] += 1
+            elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] -= 1
+            else:
+                if(index == 0):
+                    self._hut1.update_health(damage)
+
+                    if(self._hut1.hut_health() == 0):
+
+                        mm = 10000
+
+                        # self.barbarian_attack1()
+                if(index == 1):
+
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 2):
+
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 3):
+
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 4):
+
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health() == 0):
+                        mm = 10000
+                if(index == 5):
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                        mm = 10000
+                if(index == 6):
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                        mm = 10000
+                if(index == 7):
+                    self._town.update_health(damage)
+                    if(self._town.get_health() == 0):
+                        mm = 10000
+                        
+# b counter
+    def archer_battackm2(self):
+        h1 = self._hut1.hut_health()
+        h2 = self._hut2.hut_health()
+        h3 = self._hut3.hut_health()
+        h4 = self._hut4.hut_health()
+        h5 = self._hut5.hut_health()
+        c1 = self._cannon1.can_health()
+        c2 = self._cannon2.can_health()
+        town = self._town.get_health()
+        self._listh = [h1, h2, h3, h4, h5, c1, c2, town]
+        pos, size, height, width, maxsize, health_val, damage = self._barcher2.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        can1 = self._cannon1.can_health()
+        can2 = self._cannon2.can_health()
+
+        # print("wall health:",wall_hea
+        # lth,end=" ")
+        mm = 10000
+        index = 10
+        for i in range(7):
+
+            if(self._listh[i] > 0):
+
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif < mm):
+                    mm = dif
+                    index = i
+        if((wall_health > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))) and ((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+            #
+        elif(((wall_health_up > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6)))) and (((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))))):
+            self._wall_up.update_health(damage)
+
+        elif((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+            self._cannon1.update_health(damage)
+
+        elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+            self._cannon2.update_health(damage)
+        else:
+
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                pos[0] += 1
+            elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                pos[0] -= 1
+            elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] += 1
+            elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] -= 1
+            else:
+                if(index == 0):
+                    self._hut1.update_health(damage)
+
+                    if(self._hut1.hut_health() == 0):
+
+                        mm = 10000
+
+                        # self.barbarian_attack1()
+                if(index == 1):
+
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 2):
+
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 3):
+
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 4):
+
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health() == 0):
+                        mm = 10000
+                if(index == 5):
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                        mm = 10000
+                if(index == 6):
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                        mm = 10000
+                if(index == 7):
+                    self._town.update_health(damage)
+                    if(self._town.get_health() == 0):
+                        mm = 10000
+    def archer_battackm1(self):
+        h1 = self._hut1.hut_health()
+        h2 = self._hut2.hut_health()
+        h3 = self._hut3.hut_health()
+        h4 = self._hut4.hut_health()
+        h5 = self._hut5.hut_health()
+        c1 = self._cannon1.can_health()
+        c2 = self._cannon2.can_health()
+        town = self._town.get_health()
+        self._listh = [h1, h2, h3, h4, h5, c1, c2, town]
+        pos, size, height, width, maxsize, health_val, damage = self._barcher1.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        can1 = self._cannon1.can_health()
+        can2 = self._cannon2.can_health()
+
+        # print("wall health:",wall_hea
+        # lth,end=" ")
+        mm = 10000
+        index = 10
+        for i in range(7):
+
+            if(self._listh[i] > 0):
+
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif < mm):
+                    mm = dif
+                    index = i
+        if((wall_health > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))) and ((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+            #
+        elif(((wall_health_up > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6)))) and (((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))))):
+            self._wall_up.update_health(damage)
+
+        elif((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+            self._cannon1.update_health(damage)
+
+        elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+            self._cannon2.update_health(damage)
+        else:
+
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                pos[0] += 1
+            elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                pos[0] -= 1
+            elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] += 1
+            elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] -= 1
+            else:
+                if(index == 0):
+                    self._hut1.update_health(damage)
+
+                    if(self._hut1.hut_health() == 0):
+
+                        mm = 10000
+
+                        # self.barbarian_attack1()
+                if(index == 1):
+
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 2):
+
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 3):
+
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 4):
+
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health() == 0):
+                        mm = 10000
+                if(index == 5):
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                        mm = 10000
+                if(index == 6):
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                        mm = 10000
+                if(index == 7):
+                    self._town.update_health(damage)
+                    if(self._town.get_health() == 0):
+                        mm = 10000
+    def archer_attackm2(self):
+        h1 = self._hut1.hut_health()
+        h2 = self._hut2.hut_health()
+        h3 = self._hut3.hut_health()
+        h4 = self._hut4.hut_health()
+        h5 = self._hut5.hut_health()
+        c1 = self._cannon1.can_health()
+        c2 = self._cannon2.can_health()
+        town = self._town.get_health()
+        self._listh = [h1, h2, h3, h4, h5, c1, c2, town]
+        pos, size, height, width, maxsize, health_val, damage = self._archer2.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        can1 = self._cannon1.can_health()
+        can2 = self._cannon2.can_health()
+
+        # print("wall health:",wall_hea
+        # lth,end=" ")
+        mm = 10000
+        index = 10
+        for i in range(7):
+
+            if(self._listh[i] > 0):
+
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif < mm):
+                    mm = dif
+                    index = i
+        if((wall_health > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))) and ((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+            #
+        elif(((wall_health_up > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6)))) and (((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))))):
+            self._wall_up.update_health(damage)
+
+        elif((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+            self._cannon1.update_health(damage)
+
+        elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+            self._cannon2.update_health(damage)
+        else:
+
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                pos[0] += 1
+            elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                pos[0] -= 1
+            elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] += 1
+            elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] -= 1
+            else:
+                if(index == 0):
+                    self._hut1.update_health(damage)
+
+                    if(self._hut1.hut_health() == 0):
+
+                        mm = 10000
+
+                        # self.barbarian_attack1()
+                if(index == 1):
+
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 2):
+
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 3):
+
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 4):
+
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health() == 0):
+                        mm = 10000
+                if(index == 5):
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                        mm = 10000
+                if(index == 6):
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                        mm = 10000
+                if(index == 7):
+                    self._town.update_health(damage)
+                    if(self._town.get_health() == 0):
+                        mm = 10000
+    def archer_attackm1(self):
+        h1 = self._hut1.hut_health()
+        h2 = self._hut2.hut_health()
+        h3 = self._hut3.hut_health()
+        h4 = self._hut4.hut_health()
+        h5 = self._hut5.hut_health()
+        c1 = self._cannon1.can_health()
+        c2 = self._cannon2.can_health()
+        town = self._town.get_health()
+        self._listh = [h1, h2, h3, h4, h5, c1, c2, town]
+        pos, size, height, width, maxsize, health_val, damage = self._archer1.get_dimension()
+        wall_health = self._wall_down.wall_health()
+        wall_health_up = self._wall_up.wall_health()
+        can1 = self._cannon1.can_health()
+        can2 = self._cannon2.can_health()
+
+        # print("wall health:",wall_hea
+        # lth,end=" ")
+        mm = 10000
+        index = 10
+        for i in range(7):
+
+            if(self._listh[i] > 0):
+
+                dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                if(dif < mm):
+                    mm = dif
+                    index = i
+        if((wall_health > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))) and ((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10)))):
+            self._wall_down.update_health(damage)
+            #
+        elif(((wall_health_up > 0) and (pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6)))) and (((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))))):
+            self._wall_up.update_health(damage)
+
+        elif((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+            self._cannon1.update_health(damage)
+
+        elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+            self._cannon2.update_health(damage)
+        else:
+
+            # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+            if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                pos[0] += 1
+            elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                pos[0] -= 1
+            elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] += 1
+            elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                pos[1] -= 1
+            else:
+                if(index == 0):
+                    self._hut1.update_health(damage)
+
+                    if(self._hut1.hut_health() == 0):
+
+                        mm = 10000
+
+                        # self.barbarian_attack1()
+                if(index == 1):
+
+                    self._hut2.update_health(damage)
+                    if(self._hut2.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 2):
+
+                    self._hut3.update_health(damage)
+                    if(self._hut3.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 3):
+
+                    self._hut4.update_health(damage)
+                    if(self._hut4.hut_health() == 0):
+                        mm = 10000
+                        # self.barbarian_attack1()
+                if(index == 4):
+
+                    self._hut5.update_health(damage)
+                    if(self._hut5.hut_health() == 0):
+                        mm = 10000
+                if(index == 5):
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                        mm = 10000
+                if(index == 6):
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                        mm = 10000
+                if(index == 7):
+                    self._town.update_health(damage)
+                    if(self._town.get_health() == 0):
+                        mm = 10000
     def king_sword_attck(self):
         pos, size, height, width, maxsize, health_val, damage = self._king.get_dimension()
         post, sizet, heightt, widtht, maxsizet, health_valt, damaget = self._town.get_dimension()
@@ -658,7 +1303,8 @@ class Game:
         can1 = self._cannon1.can_health()
         can2 = self._cannon2.can_health()
 
-        # print("wall health:",wall_health,end=" ")
+        # print("wall health:",wall_hea
+        # lth,end=" ")
         mm = 10000
         index = 10
         for i in range(7):
@@ -1485,6 +2131,12 @@ class Game:
             self._kingattack_falg = 1
         elif ch == 'p':
             self._pcounter += 1
+        elif ch == 'm':
+            self._mcounter += 1
+        elif ch == 'n':
+            self._ncounter += 1
+        elif ch == 'b':
+            self._bcounter += 1
         elif ch == 'j':
             self._kcounter += 1
         elif ch == 'l':
