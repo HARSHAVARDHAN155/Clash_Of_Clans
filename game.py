@@ -7,7 +7,7 @@ import os
 import time
 import numpy as np
 from color import *
-from objects import Archer, Balloon, Barbarian, Cannon, Hut, Item, King, Wall, WizardTower
+from objects import Archer, Balloon, Barbarian, Cannon, Hut, Item, King, Queen, Wall, WizardTower
 from objects import Town
 # from screen import Screen
 from input import input_to
@@ -165,12 +165,15 @@ class Game:
         cols = int(cols)
         self.ran = 1
         self._kingval = 0
+        self._queenval = 0
         # self._leftx =[int(self._width/2)-6,]
         # self._lefty=[int(self._height/2) - 4,int(self._height/2) - 3,int(self._height/2) - 2,int(self._height/2) - 1,int(self._height/2) ,int(self._height/2)+1,int(self._height/2)+2,int(self._height/2)+3,int(self._height/2)+4]
         # self._rightx=[int(self._height/2) - 4,int(self._height/2) - 3,int(self._height/2) - 2,int(self._height/2) - 1,int(self._height/2) ,int(self._height/2) +1,int(self._height/2) +2,int(self._height/2) +3,int(self._height/2) +4]
         self._kingattack = 1
         self._sword =0
         self._kingattack_falg =0
+        self._queenattack_falg =0
+        self._queenattack =1
         self._vcounter = 0
         self._v1 = 0
         self._v2 = 0
@@ -284,6 +287,9 @@ class Game:
                                1, 18], int(1), int(1), [self._width, self._height], int(100), 0)
         self._king = King([int(6), int(self._height/2)], [1, 1],
                           2, 2, [self._width, self._height], int(100), 25)
+        self._queen = Queen([int(6), int(self._height/2)], [1, 1],
+                          2, 2, [self._width, self._height], int(100), 15)
+        
         self._barbarian_p = Barbarian([10, 25], [1, 1], 1, 2, [
                                       self._width, self._height], int(100), 2)
         self._barbarian_p1 = Barbarian([10, 25], [1, 1], 1, 2, [
@@ -332,7 +338,7 @@ class Game:
                                       self._width, self._height], int(50), 1)
         
         self._hut1 = Hut([int(12), int(3)], [1, 1], 1, 1, [
-                         self._width, self._height], int(70), 0)
+                         self._width, self._height], int(100), 0)
         self._hut2 = Hut([int((self._width/2)), int(3)], [1, 1],
                          1, 1, [self._width, self._height], int(100), 0)
         self._hut3 = Hut([int(28), int(20)], [1, 1], 1, 1, [
@@ -341,14 +347,23 @@ class Game:
                          1, 1, [self._width, self._height], int(100), 0)
         self._hut5 = Hut([int((self._width-15)), int(20)], [1, 1],
                          1, 1, [self._width, self._height], int(100), 0)
+        
+        self._qhut1 = Hut([int(35), int(12)], [1, 1], 1, 1, [
+                         self._width, self._height], int(100), 0)
+        self._qhut2 = Hut([int(37), int(14)], [1, 1],
+                         1, 1, [self._width, self._height], int(100), 0)
+        self._qhut3 = Hut([int(39), int(12)], [1, 1], 1, 1, [
+                         self._width, self._height], int(100), 0)
+        
+        
         self._cannon1 = Cannon([int(56), int(7)], [1, 1], 1, 0, [
                                self._width, self._height], int(100), 5)
         self._cannon2 = Cannon([int(120), int(23)], [1, 1], 1, 0, [
                                self._width, self._height], int(100), 5)
         self._wizard1 = WizardTower([int(130), int(7)], [1, 1], 1, 0, [
-                               self._width, self._height], int(100), 5)
+                               self._width, self._height], int(100), 10)
         self._wizard2 = WizardTower([int(40), int(23)], [1, 1], 1, 0, [
-                               self._width, self._height], int(100), 5)
+                               self._width, self._height], int(100), 10)
         self._listx = [12, int((self._width/2)), 28, int((self._width-15)),
                                int((self._width-15)), 56, 120, 56, 120, int(self._width/2)]
         self._listy = [3, 3, 20, 3, 20, 7, 23, (int(self._height/2))-2]
@@ -356,65 +371,65 @@ class Game:
         self._priy = [7,23,7, 23,]
         
     def wizard_attack(self):
-        pos, size, height, width, maxsize, health_val, damage = self._cannon1.get_dimension()
-        pos1, size1, height1, width1, maxsize1, health_val1, damage1 = self._cannon2.get_dimension()
+        pos, size, height, width, maxsize, health_val, damage = self._wizard1.get_dimension()
+        pos1, size1, height1, width1, maxsize1, health_val1, damage1 = self._wizard2.get_dimension()
         kinghealth = self._king.get_health()
         kingpos = self._king.item_pos()
         count = 0
-        p1 = self._barbarian_p.item_pos()
-        p2 = self._barbarian_p1.item_pos()
-        p3 = self._barbarian_p2.item_pos()
-        j1 = self._barbarian_k.item_pos()
-        j2 = self._barbarian_k1.item_pos()
-        j3 = self._barbarian_k2.item_pos()
+        p1 = self._Balloon1.item_pos()
+        p2 = self._Balloon2.item_pos()
+        p3 = self._cBalloon1.item_pos()
+        j1 = self._cBalloon2.item_pos()
+        j2 = self._xBalloon1.item_pos()
+        j3 = self._xBalloon2.item_pos()
         l1 = self._barbarian_l.item_pos()
         l2 = self._barbarian_l1.item_pos()
         l3 = self._barbarian_l2.item_pos()
 
-        # print(kingpos[0], kingpos[1], pos[1], pos[0],"here")
+        print(health_val1,self._cBalloon1._health_val, self._c1,self._c2,"here")
         if(kingpos[0] >= (health_val > 0 and pos[0]-5) and (kingpos[0] <= (pos[0]+5)) and (kingpos[1] >= (pos[1]-5)) and (kingpos[1] <= (pos[1]+5))) or ((health_val1 > 0 and kingpos[0] >= (pos1[0]-5) and (kingpos[0] <= (pos1[0]+5)) and (kingpos[1] >= (pos1[1]-5)) and (kingpos[1] <= (pos1[1]+5)))):
             self._king.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
             
-        elif(self._sp1 == 1 and ((health_val > 0 and p1[0] >= (pos[0]-5) and (p1[0] <= (pos[0]+5)) and (p1[1] >= (pos[1]-5)) and (p1[1] <= (pos[1]+5))) or ((health_val1 > 0 and p1[0] >= (pos1[0]-5) and (p1[0] <= (pos1[0]+5)) and (p1[1] >= (pos1[1]-5)) and (p1[1] <= (pos1[1]+5)))))):
-            self._barbarian_p.update_health(damage)
+        if(self._v1 == 1 and ((health_val > 0 and p1[0] >= (pos[0]-5) and (p1[0] <= (pos[0]+5)) and (p1[1] >= (pos[1]-5)) and (p1[1] <= (pos[1]+5))) or ((health_val1 > 0 and p1[0] >= (pos1[0]-5) and (p1[0] <= (pos1[0]+5)) and (p1[1] >= (pos1[1]-5)) and (p1[1] <= (pos1[1]+5)))))):
+            self._Balloon1.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
 
-        elif(self._sp2 == 1 and ((health_val > 0 and p2[0] >= (pos[0]-5) and (p2[0] <= (pos[0]+5)) and (p2[1] >= (pos[1]-5)) and (p2[1] <= (pos[1]+5))) or ((health_val1 > 0 and p2[0] >= (pos1[0]-5) and (p2[0] <= (pos1[0]+5)) and (p2[1] >= (pos1[1]-5)) and (p2[1] <= (pos1[1]+5)))))):
-            self._barbarian_p1.update_health(damage)
-            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
-            
-
-        elif(self._sp3 == 1 and ((health_val > 0 and p3[0] >= (pos[0]-5) and (p3[0] <= (pos[0]+5)) and (p3[1] >= (pos[1]-5)) and (p3[1] <= (pos[1]+5))) or ((health_val1 > 0 and p3[0] >= (pos1[0]-5) and (p3[0] <= (pos1[0]+5)) and (p3[1] >= (pos1[1]-5)) and (p3[1] <= (pos1[1]+5)))))):
-            self._barbarian_p2.update_health(damage)
+        if(self._v2 == 1 and ((health_val > 0 and p2[0] >= (pos[0]-5) and (p2[0] <= (pos[0]+5)) and (p2[1] >= (pos[1]-5)) and (p2[1] <= (pos[1]+5))) or ((health_val1 > 0 and p2[0] >= (pos1[0]-5) and (p2[0] <= (pos1[0]+5)) and (p2[1] >= (pos1[1]-5)) and (p2[1] <= (pos1[1]+5)))))):
+            self._Balloon2.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
             
 
-        elif(self._sk1 == 1 and ((health_val > 0 and j1[0] >= (pos[0]-5) and (j1[0] <= (pos[0]+5)) and (j1[1] >= (pos[1]-5)) and (j1[1] <= (pos[1]+5))) or ((health_val1 > 0 and j1[0] >= (pos1[0]-5) and (j1[0] <= (pos1[0]+5)) and (j1[1] >= (pos1[1]-5)) and (j1[1] <= (pos1[1]+5)))))):
-            self._barbarian_k.update_health(damage)
+        if(self._c1 == 1 and ((health_val > 0 and p3[0] >= (pos[0]-5) and (p3[0] <= (pos[0]+5)) and (p3[1] >= (pos[1]-5)) and (p3[1] <= (pos[1]+5))) or ((health_val1 > 0 and p3[0] >= (pos1[0]-5) and (p3[0] <= (pos1[0]+5)) and (p3[1] >= (pos1[1]-5)) and (p3[1] <= (pos1[1]+5)))))):
+            self._cBalloon1.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
             
 
-        elif(self._sk2 == 1 and ((health_val > 0 and j2[0] >= (pos[0]-5) and (j2[0] <= (pos[0]+5)) and (j2[1] >= (pos[1]-5)) and (j2[1] <= (pos[1]+5))) or ((health_val1 > 0 and j2[0] >= (pos1[0]-5) and (j2[0] <= (pos1[0]+5)) and (j2[1] >= (pos1[1]-5)) and (j2[1] <= (pos1[1]+5)))))):
-            self._barbarian_k1.update_health(damage)
+        if(self._c2 == 1 and ((health_val > 0 and j1[0] >= (pos[0]-5) and (j1[0] <= (pos[0]+5)) and (j1[1] >= (pos[1]-5)) and (j1[1] <= (pos[1]+5))) or ((health_val1 > 0 and j1[0] >= (pos1[0]-5) and (j1[0] <= (pos1[0]+5)) and (j1[1] >= (pos1[1]-5)) and (j1[1] <= (pos1[1]+5)))))):
+            self._cBalloon2.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
             
 
-        elif(self._sk3 == 1 and ((j3[0] >= (pos[0]-5) and (j3[0] <= (pos[0]+5)) and (j3[1] >= (pos[1]-5)) and (j3[1] <= (pos[1]+5))) or ((j3[0] >= (pos1[0]-5) and (health_val1 > 0 and j3[0] <= (pos1[0]+5)) and (j3[1] >= (pos1[1]-5)) and (j3[1] <= (pos1[1]+5)))))):
-            self._barbarian_k2.update_health(damage)
+        if(self._x1 == 1 and ((health_val > 0 and j2[0] >= (pos[0]-5) and (j2[0] <= (pos[0]+5)) and (j2[1] >= (pos[1]-5)) and (j2[1] <= (pos[1]+5))) or ((health_val1 > 0 and j2[0] >= (pos1[0]-5) and (j2[0] <= (pos1[0]+5)) and (j2[1] >= (pos1[1]-5)) and (j2[1] <= (pos1[1]+5)))))):
+            self._xBalloon1.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
             
 
-        elif(self._sl1 == 1 and ((health_val > 0 and l1[0] >= (pos[0]-5) and (l1[0] <= (pos[0]+5)) and (l1[1] >= (pos[1]-5)) and (l1[1] <= (pos[1]+5))) or ((health_val1 > 0 and l1[0] >= (pos1[0]-5) and (l1[0] <= (pos1[0]+5)) and (l1[1] >= (pos1[1]-5)) and (l1[1] <= (pos1[1]+5)))))):
+        if(self._x2 == 1 and ((j3[0] >= (pos[0]-5) and (j3[0] <= (pos[0]+5)) and (j3[1] >= (pos[1]-5)) and (j3[1] <= (pos[1]+5))) or ((j3[0] >= (pos1[0]-5) and (health_val1 > 0 and j3[0] <= (pos1[0]+5)) and (j3[1] >= (pos1[1]-5)) and (j3[1] <= (pos1[1]+5)))))):
+            self._xBalloon2.update_health(damage)
+            threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
+            
+
+        if(self._sl1 == 1 and ((health_val > 0 and l1[0] >= (pos[0]-5) and (l1[0] <= (pos[0]+5)) and (l1[1] >= (pos[1]-5)) and (l1[1] <= (pos[1]+5))) or ((health_val1 > 0 and l1[0] >= (pos1[0]-5) and (l1[0] <= (pos1[0]+5)) and (l1[1] >= (pos1[1]-5)) and (l1[1] <= (pos1[1]+5)))))):
             self._barbarian_l.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
 
-        elif(self._sl2 == 1 and ((health_val > 0 and l2[0] >= (pos[0]-5) and (l2[0] <= (pos[0]+5)) and (l2[1] >= (pos[1]-5)) and (l2[1] <= (pos[1]+5))) or ((health_val1 > 0 and l2[0] >= (pos1[0]-5) and (l2[0] <= (pos1[0]+5)) and (l2[1] >= (pos1[1]-5)) and (l2[1] <= (pos1[1]+5)))))):
+        if(self._sl2 == 1 and ((health_val > 0 and l2[0] >= (pos[0]-5) and (l2[0] <= (pos[0]+5)) and (l2[1] >= (pos[1]-5)) and (l2[1] <= (pos[1]+5))) or ((health_val1 > 0 and l2[0] >= (pos1[0]-5) and (l2[0] <= (pos1[0]+5)) and (l2[1] >= (pos1[1]-5)) and (l2[1] <= (pos1[1]+5)))))):
             self._barbarian_l1.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
             
 
-        elif(self._sl3 == 1 and ((health_val > 0 and l3[0] >= (pos[0]-5) and (l3[0] <= (pos[0]+5)) and (l3[1] >= (pos[1]-5)) and (l3[1] <= (pos[1]+5))) or ((health_val1 > 0 and l3[0] >= (pos1[0]-5) and (l3[0] <= (pos1[0]+5)) and (l3[1] >= (pos1[1]-5)) and (l3[1] <= (pos1[1]+5)))))):
+        if(self._sl3 == 1 and ((health_val > 0 and l3[0] >= (pos[0]-5) and (l3[0] <= (pos[0]+5)) and (l3[1] >= (pos[1]-5)) and (l3[1] <= (pos[1]+5))) or ((health_val1 > 0 and l3[0] >= (pos1[0]-5) and (l3[0] <= (pos1[0]+5)) and (l3[1] >= (pos1[1]-5)) and (l3[1] <= (pos1[1]+5)))))):
             self._barbarian_l2.update_health(damage)
             threading.Thread(target=playsound, args=('./resources/moving.mp3',), daemon=True).start()
             
@@ -430,7 +445,7 @@ class Game:
         p3 = self._barbarian_p2.item_pos()
         j1 = self._barbarian_k.item_pos()
         j2 = self._barbarian_k1.item_pos()
-        j3 = self._barbarian_k2.item_pos()
+        j3 = self._xBalloon2.item_pos()
         l1 = self._barbarian_l.item_pos()
         l2 = self._barbarian_l1.item_pos()
         l3 = self._barbarian_l2.item_pos()
@@ -524,6 +539,10 @@ class Game:
         self._screen.place_object(self._hut4)
         self._screen.place_object(self._hut3)
 
+        self._screen.place_object(self._qhut1)
+        self._screen.place_object(self._qhut2)
+        self._screen.place_object(self._qhut3)
+        
         self._screen.place_object(self._hut5)
         self._screen.place_object(self._cannon1)
         self._screen.place_object(self._cannon2)
@@ -536,6 +555,9 @@ class Game:
 
         if(self._kingval == 1):
             self._screen.place_object(self._king)
+            
+        if(self._queenval == 1):
+            self._screen.place_object(self._queen)
             
         # m counter archer
         if(self._mcounter == 1 and self._a1 == 0):
@@ -608,9 +630,9 @@ class Game:
             self.Balloon_attack1()
         
         if(self._Balloon2._health_val <= 0):
-            self._v2 = -1
+            self._v2 = 0
         if(self._Balloon1._health_val <= 0):
-            self._v1 = -1
+            self._v1 = 0
         # c counter
         if(self._ccounter == 1 and self._c1 == 0):
             self._c1 = 1
@@ -624,9 +646,9 @@ class Game:
             self.Balloon_attackc1()
         
         if(self._cBalloon1._health_val <= 0):
-            self._c1 = -1
+            self._c1 = 0
         if(self._cBalloon2._health_val <= 0):
-            self._c2 = -1
+            self._c2 = 0
             
         # x counter
         
@@ -725,7 +747,8 @@ class Game:
             
         if(self._kingattack_falg==1):
             self._kingattack = 0
-
+        if(self._queenattack_falg==1):
+            self._queenattack = 0
         if(self._sword==1):
             self.king_sword_attck() 
     def king_attack(self):
@@ -838,9 +861,136 @@ class Game:
             if(pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))):
                 if((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10))):
                     self._wall_down.update_health(damage)
+                    
+    def queen_attack(self):
+        pos, size, height, width, maxsize, health_val, damage = self._queen.get_dimension()
+
+        # print(self._kingattack_falg, "king attack val:",self._kingattack)
+        # print(pos[0],pos[1],"width/2:",int(self._width/2),"height/2:",int(self._height/2),"kingattack:",self._kingattack)
+        # print("waal1 :",self._wall_left1)
+        if(health_val >0):
+            
+            if(self._queenattack ==0) and (((pos[0]+8 >= int(35) and pos[0] <= int(35))) or ((pos[0]+8 >= int(37) and pos[0] <= int(37))) or ((pos[0]+8 >= int(37) and pos[0] <= int(37)))) and (pos[1] == 12 or pos[1]==14 ):
+                self._qhut1.update_health(damage)
+                self._qhut2.update_health(damage)
+                self._qhut3.update_health(damage)
+            if(self._queenattack==0) and ((pos[0]+8 >= int(130) and pos[0] <= int(130))and pos[1]==7):
+                self._wizard1.update_health(damage)
+            if(self._queenattack==0) and ((pos[1] - 8 <= int(7) and pos[1] >= int(7))and pos[0]==130):
+                self._wizard1.update_health(damage)   
+            
+            if(self._queenattack==0) and ((pos[0]+8 >= int(40) and pos[0] <= int(40))and pos[1]==23):
+                self._wizard2.update_health(damage)
+            if(self._queenattack==0) and ((pos[1] + 8 >= int(23) and pos[1] <= int(23))and pos[0]==40):
+                self._wizard2.update_health(damage) 
+                    
+            if((self._queenattack == 0) and (pos[0]+8 >= int(self._width/2) and pos[0] <= int(self._width/2)) and ((pos[1] == int(self._height/2 - 2)) or (pos[1] == int(self._height/2 - 1)) or (pos[1] == int(self._height/2)) or (pos[1] == int(self._height/2 + 1)))):
+                self._town.update_health(damage)
+            else:
+                self._queenattack = 1
+            if((self._queenattack == 0) and (pos[0]-1-3 == int(self._width/2)) and ((pos[1] == int(self._height/2 - 2)) or (pos[1] == int(self._height/2 - 1)) or (pos[1] == int(self._height/2)) or (pos[1] == int(self._height/2 + 1)))):
+                self._town.update_health(damage)
+            else:
+                self._queenattack = 1
+
+            if((self._queenattack == 0) and (pos[1]+3+8 >= int(self._height/2 - 2)) and ((pos[0] == int(self._width/2)) or (pos[0] == int(self._width/2)) or (pos[0]+1 == int(self._width/2)) or (pos[0]+2 == int(self._width/2)) or (pos[0]+3 == int(self._width/2)))):
+                self._town.update_health(damage)
+            else:
+                self._queenattack = 1
+            if((self._queenattack == 0) and (pos[1]-4 == int(self._height/2 - 2)) and ((pos[0] == int(self._width/2)) or (pos[0]+3 == int(self._width/2)) or (pos[0]+4 == int(self._width/2)) or (pos[0]+2 == int(self._width/2)) or (pos[0]+1 == int(self._width/2)))):
+                self._town.update_health(damage)
+            else:
+                self._queenattack = 1
+
+                # huts
+            if((self._queenattack == 1) and (((pos[0]+1 == 12) and pos[1] == 3) or (pos[0]-2 == 12 and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == 12) or (pos[1]-2 == 3 and pos[0] == 12))):
+                self._hut1.update_health(damage)
+            else:
+                self._queenattack = 1
+            if((self._queenattack == 1) and (((pos[0]+1 == int((self._width/2))) and pos[1] == 3) or (pos[0]-2 == int((self._width/2)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width/2))) or (pos[1]-2 == 3 and pos[0] == int((self._width/2))))):
+                self._hut2.update_health(damage)
+            else:
+                self._queenattack = 1
+
+            if((self._queenattack == 1) and (((pos[0]+1 == 28) and pos[1] == 20) or (pos[0]-2 == 28 and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == 28) or (pos[1]-2 == 20 and pos[0] == 28))):
+                self._hut3.update_health(damage)
+            else:
+                self._queenattack = 1
+
+            if((self._queenattack == 1) and (((pos[0]+1 == int((self._width-15))) and pos[1] == 3) or (pos[0]-2 == int((self._width-15)) and pos[1] == 3) or (pos[1]+2 == 3 and pos[0] == int((self._width-15))) or (pos[1]-2 == 3 and pos[0] == int((self._width-15))))):
+                self._hut4.update_health(damage)
+            else:
+                self._queenattack = 1
+
+            if((self._queenattack == 1) and (((pos[0]+1 == int((self._width-15))) and pos[1] == 20) or (pos[0]-2 == int((self._width-15)) and pos[1] == 20) or (pos[1]+2 == 20 and pos[0] == int((self._width-15))) or (pos[1]-2 == 20 and pos[0] == int((self._width-15))))):
+                self._hut5.update_health(damage)
+            else:
+                self._queenattack = 1
+
+            # cannons
+
+            if((self._queenattack == 0) and (((pos[0]+1 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+                self._cannon1.update_health(damage)
+            else:
+                self._queenattack = 1
+            if((self._queenattack == 0) and (((pos[0]+1 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+                self._cannon2.update_health(damage)
+            else:
+                self._queenattack = 1
+
+            # Walls
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 5+1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 5+1))):
+                self._wall_left1.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 3)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 3))):
+                self._wall_left2.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 2)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 2))):
+                self._wall_left3.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) - 1))):
+                self._wall_left4.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2))) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2)))):
+                self._wall_left5.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 1)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 1))):
+                self._wall_left6.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 2)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 2))):
+                self._wall_left7.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 3)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 3))):
+                self._wall_left8.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 4)) or (pos[0]-1 == int(self._width/2)-6) and (pos[1] == (int(self._height/2) + 4))):
+                self._wall_left9.update_health(damage)
+
+            # right
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 5+1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 5+1))):
+                self._wall_right1.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 3)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 3))):
+                self._wall_right2.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 2)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 2))):
+                self._wall_right3.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) - 1))):
+                self._wall_right4.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2))) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2)))):
+                self._wall_right5.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 1)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 1))):
+                self._wall_right6.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 2)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 2))):
+                self._wall_right7.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 3)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 3))):
+                self._wall_right8.update_health(damage)
+            if((pos[0]+1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 4)) or (pos[0]-1 == int(self._width/2)+12) and (pos[1] == (int(self._height/2) + 4))):
+                self._wall_right9.update_health(damage)
+
+            # up
+
+            if(pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))):
+                if((pos[1]+1 == (int(self._height/2) - 5)) or (pos[1]-1 == (int(self._height/2) - 5))):
+                    self._wall_up.update_health(damage)
+            # down
+            if(pos[0] <= (int(self._width/2)-6+18) and (pos[0] >= (int(self._width/2)-6))):
+                if((pos[1]+1 == (int(self._height/2) - 5+10)) or (pos[1]-1 == (int(self._height/2) - 5+10))):
+                    self._wall_down.update_health(damage)
+
 
     # def king_val(self):
-    #     self._kingattack = 1
+    #     self._queenattack = 1
 
     def result(self):
         
@@ -872,106 +1022,107 @@ class Game:
         pos, size, height, width, maxsize, health_val, damage = self._xBalloon2.get_dimension()
         can1 = self._cannon1.can_health()
         can2 = self._cannon2.can_health()
-        mx = 100000
-        index = 10
-        for i in range(4):
-            if(self._pri[i]>0):
-                dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
-              
-                if(dif < mx):
-                    mx = dif
-                    index = i
-                    
-        print(mx,index,end=" ")            
-        
-        if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
-                    pos[0] += 1
-        elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
-                    pos[0] -= 1
-        elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] += 1
-        elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] -= 1
-        else:
-            if(index == 0):
-                self._wizard1.update_health(damage)
-
-                if(self._wizard1.can_health() == 0):
-
-                     mm = 10000
-
-            if(index == 1):
-
-                self._wizard2.update_health(damage)
-                if(self._wizard2.can_health() == 0):
-                            mm = 10000
-            if(index == 2):
-
-                self._cannon1.update_health(damage)
-                if(self._cannon1.can_health() == 0):
-                            mm = 10000
-            if(index == 3):
-
-                self._cannon2.update_health(damage)
-                if(self._cannon2.can_health() == 0):
-                            mm = 10000
-
-        if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
-            mm = 10000
+        if(health_val > 0):
+            mx = 100000
             index = 10
-            for i in range(5):
-
-                if(self._listh[i] > 0):
-
-                    dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
-                    if(dif < mm):
-                        mm = dif
+            for i in range(4):
+                if(self._pri[i]>0):
+                    dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
+                
+                    if(dif < mx):
+                        mx = dif
                         index = i
-
-            if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
-                self._cannon1.update_health(damage)
-
-            elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
-                self._cannon2.update_health(damage)
+                        
+            print(mx,index,end=" ")            
+            
+            if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
+                        pos[0] += 1
+            elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
+                        pos[0] -= 1
+            elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] += 1
+            elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] -= 1
             else:
+                if(index == 0):
+                    self._wizard1.update_health(damage)
 
-                # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
-                if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
-                    pos[0] += 1
-                elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
-                    pos[0] -= 1
-                elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] += 1
-                elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] -= 1
+                    if(self._wizard1.can_health() == 0):
+
+                        mm = 10000
+
+                if(index == 1):
+
+                    self._wizard2.update_health(damage)
+                    if(self._wizard2.can_health() == 0):
+                                mm = 10000
+                if(index == 2):
+
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                                mm = 10000
+                if(index == 3):
+
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                                mm = 10000
+
+            if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
+                mm = 10000
+                index = 10
+                for i in range(5):
+
+                    if(self._listh[i] > 0):
+
+                        dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                        if(dif < mm):
+                            mm = dif
+                            index = i
+
+                if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+                    self._cannon1.update_health(damage)
+
+                elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+                    self._cannon2.update_health(damage)
                 else:
-                    if(index == 0):
-                        self._hut1.update_health(damage)
 
-                        if(self._hut1.hut_health() == 0):
+                    # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+                    if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                        pos[0] += 1
+                    elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                        pos[0] -= 1
+                    elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] += 1
+                    elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] -= 1
+                    else:
+                        if(index == 0):
+                            self._hut1.update_health(damage)
 
-                            mm = 10000
+                            if(self._hut1.hut_health() == 0):
 
-                    if(index == 1):
+                                mm = 10000
 
-                        self._hut2.update_health(damage)
-                        if(self._hut2.hut_health() == 0):
-                            mm = 10000
-                    if(index == 2):
+                        if(index == 1):
 
-                        self._hut3.update_health(damage)
-                        if(self._hut3.hut_health() == 0):
-                            mm = 10000
-                    if(index == 3):
+                            self._hut2.update_health(damage)
+                            if(self._hut2.hut_health() == 0):
+                                mm = 10000
+                        if(index == 2):
 
-                        self._hut4.update_health(damage)
-                        if(self._hut4.hut_health() == 0):
-                            mm = 10000
-                    if(index == 4):
+                            self._hut3.update_health(damage)
+                            if(self._hut3.hut_health() == 0):
+                                mm = 10000
+                        if(index == 3):
 
-                        self._hut5.update_health(damage)
-                        if(self._hut5.hut_health() == 0):
-                            mm = 10000
+                            self._hut4.update_health(damage)
+                            if(self._hut4.hut_health() == 0):
+                                mm = 10000
+                        if(index == 4):
+
+                            self._hut5.update_health(damage)
+                            if(self._hut5.hut_health() == 0):
+                                mm = 10000
     def Balloon_attackx(self):
         h1 = self._hut1.hut_health()
         h2 = self._hut2.hut_health()
@@ -989,106 +1140,108 @@ class Game:
         pos, size, height, width, maxsize, health_val, damage = self._xBalloon1.get_dimension()
         can1 = self._cannon1.can_health()
         can2 = self._cannon2.can_health()
-        mx = 100000
-        index = 10
-        for i in range(4):
-            if(self._pri[i]>0):
-                dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
-              
-                if(dif < mx):
-                    mx = dif
-                    index = i
-                    
-        print(mx,index,end=" ")            
         
-        if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
-                    pos[0] += 1
-        elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
-                    pos[0] -= 1
-        elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] += 1
-        elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] -= 1
-        else:
-            if(index == 0):
-                self._wizard1.update_health(damage)
-
-                if(self._wizard1.can_health() == 0):
-
-                     mm = 10000
-
-            if(index == 1):
-
-                self._wizard2.update_health(damage)
-                if(self._wizard2.can_health() == 0):
-                            mm = 10000
-            if(index == 2):
-
-                self._cannon1.update_health(damage)
-                if(self._cannon1.can_health() == 0):
-                            mm = 10000
-            if(index == 3):
-
-                self._cannon2.update_health(damage)
-                if(self._cannon2.can_health() == 0):
-                            mm = 10000
-
-        if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
-            mm = 10000
+        if(health_val > 0):
+            mx = 100000
             index = 10
-            for i in range(5):
-
-                if(self._listh[i] > 0):
-
-                    dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
-                    if(dif < mm):
-                        mm = dif
+            for i in range(4):
+                if(self._pri[i]>0):
+                    dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
+                
+                    if(dif < mx):
+                        mx = dif
                         index = i
-
-            if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
-                self._cannon1.update_health(damage)
-
-            elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
-                self._cannon2.update_health(damage)
+                        
+            print(mx,index,end=" ")            
+            
+            if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
+                        pos[0] += 1
+            elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
+                        pos[0] -= 1
+            elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] += 1
+            elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] -= 1
             else:
+                if(index == 0):
+                    self._wizard1.update_health(damage)
 
-                # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
-                if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
-                    pos[0] += 1
-                elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
-                    pos[0] -= 1
-                elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] += 1
-                elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] -= 1
+                    if(self._wizard1.can_health() == 0):
+
+                        mm = 10000
+
+                if(index == 1):
+
+                    self._wizard2.update_health(damage)
+                    if(self._wizard2.can_health() == 0):
+                                mm = 10000
+                if(index == 2):
+
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                                mm = 10000
+                if(index == 3):
+
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                                mm = 10000
+
+            if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
+                mm = 10000
+                index = 10
+                for i in range(5):
+
+                    if(self._listh[i] > 0):
+
+                        dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                        if(dif < mm):
+                            mm = dif
+                            index = i
+
+                if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+                    self._cannon1.update_health(damage)
+
+                elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+                    self._cannon2.update_health(damage)
                 else:
-                    if(index == 0):
-                        self._hut1.update_health(damage)
 
-                        if(self._hut1.hut_health() == 0):
+                    # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+                    if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                        pos[0] += 1
+                    elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                        pos[0] -= 1
+                    elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] += 1
+                    elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] -= 1
+                    else:
+                        if(index == 0):
+                            self._hut1.update_health(damage)
 
-                            mm = 10000
+                            if(self._hut1.hut_health() == 0):
 
-                    if(index == 1):
+                                mm = 10000
 
-                        self._hut2.update_health(damage)
-                        if(self._hut2.hut_health() == 0):
-                            mm = 10000
-                    if(index == 2):
+                        if(index == 1):
 
-                        self._hut3.update_health(damage)
-                        if(self._hut3.hut_health() == 0):
-                            mm = 10000
-                    if(index == 3):
+                            self._hut2.update_health(damage)
+                            if(self._hut2.hut_health() == 0):
+                                mm = 10000
+                        if(index == 2):
 
-                        self._hut4.update_health(damage)
-                        if(self._hut4.hut_health() == 0):
-                            mm = 10000
-                    if(index == 4):
+                            self._hut3.update_health(damage)
+                            if(self._hut3.hut_health() == 0):
+                                mm = 10000
+                        if(index == 3):
 
-                        self._hut5.update_health(damage)
-                        if(self._hut5.hut_health() == 0):
-                            mm = 10000
+                            self._hut4.update_health(damage)
+                            if(self._hut4.hut_health() == 0):
+                                mm = 10000
+                        if(index == 4):
+
+                            self._hut5.update_health(damage)
+                            if(self._hut5.hut_health() == 0):
+                                mm = 10000
     def Balloon_attackc1(self):
         h1 = self._hut1.hut_health()
         h2 = self._hut2.hut_health()
@@ -1106,106 +1259,107 @@ class Game:
         pos, size, height, width, maxsize, health_val, damage = self._cBalloon2.get_dimension()
         can1 = self._cannon1.can_health()
         can2 = self._cannon2.can_health()
-        mx = 100000
-        index = 10
-        for i in range(4):
-            if(self._pri[i]>0):
-                dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
-              
-                if(dif < mx):
-                    mx = dif
-                    index = i
-                    
-        print(mx,index,end=" ")            
-        
-        if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
-                    pos[0] += 1
-        elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
-                    pos[0] -= 1
-        elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] += 1
-        elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] -= 1
-        else:
-            if(index == 0):
-                self._wizard1.update_health(damage)
-
-                if(self._wizard1.can_health() == 0):
-
-                     mm = 10000
-
-            if(index == 1):
-
-                self._wizard2.update_health(damage)
-                if(self._wizard2.can_health() == 0):
-                            mm = 10000
-            if(index == 2):
-
-                self._cannon1.update_health(damage)
-                if(self._cannon1.can_health() == 0):
-                            mm = 10000
-            if(index == 3):
-
-                self._cannon2.update_health(damage)
-                if(self._cannon2.can_health() == 0):
-                            mm = 10000
-
-        if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
-            mm = 10000
+        if(health_val > 0):
+            mx = 100000
             index = 10
-            for i in range(5):
-
-                if(self._listh[i] > 0):
-
-                    dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
-                    if(dif < mm):
-                        mm = dif
+            for i in range(4):
+                if(self._pri[i]>0):
+                    dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
+                
+                    if(dif < mx):
+                        mx = dif
                         index = i
-
-            if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
-                self._cannon1.update_health(damage)
-
-            elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
-                self._cannon2.update_health(damage)
+                        
+            print(mx,index,end=" ")            
+            
+            if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
+                        pos[0] += 1
+            elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
+                        pos[0] -= 1
+            elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] += 1
+            elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] -= 1
             else:
+                if(index == 0):
+                    self._wizard1.update_health(damage)
 
-                # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
-                if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
-                    pos[0] += 1
-                elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
-                    pos[0] -= 1
-                elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] += 1
-                elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] -= 1
+                    if(self._wizard1.can_health() == 0):
+
+                        mm = 10000
+
+                if(index == 1):
+
+                    self._wizard2.update_health(damage)
+                    if(self._wizard2.can_health() == 0):
+                                mm = 10000
+                if(index == 2):
+
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                                mm = 10000
+                if(index == 3):
+
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                                mm = 10000
+
+            if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
+                mm = 10000
+                index = 10
+                for i in range(5):
+
+                    if(self._listh[i] > 0):
+
+                        dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                        if(dif < mm):
+                            mm = dif
+                            index = i
+
+                if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+                    self._cannon1.update_health(damage)
+
+                elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+                    self._cannon2.update_health(damage)
                 else:
-                    if(index == 0):
-                        self._hut1.update_health(damage)
 
-                        if(self._hut1.hut_health() == 0):
+                    # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+                    if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                        pos[0] += 1
+                    elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                        pos[0] -= 1
+                    elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] += 1
+                    elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] -= 1
+                    else:
+                        if(index == 0):
+                            self._hut1.update_health(damage)
 
-                            mm = 10000
+                            if(self._hut1.hut_health() == 0):
 
-                    if(index == 1):
+                                mm = 10000
 
-                        self._hut2.update_health(damage)
-                        if(self._hut2.hut_health() == 0):
-                            mm = 10000
-                    if(index == 2):
+                        if(index == 1):
 
-                        self._hut3.update_health(damage)
-                        if(self._hut3.hut_health() == 0):
-                            mm = 10000
-                    if(index == 3):
+                            self._hut2.update_health(damage)
+                            if(self._hut2.hut_health() == 0):
+                                mm = 10000
+                        if(index == 2):
 
-                        self._hut4.update_health(damage)
-                        if(self._hut4.hut_health() == 0):
-                            mm = 10000
-                    if(index == 4):
+                            self._hut3.update_health(damage)
+                            if(self._hut3.hut_health() == 0):
+                                mm = 10000
+                        if(index == 3):
 
-                        self._hut5.update_health(damage)
-                        if(self._hut5.hut_health() == 0):
-                            mm = 10000
+                            self._hut4.update_health(damage)
+                            if(self._hut4.hut_health() == 0):
+                                mm = 10000
+                        if(index == 4):
+
+                            self._hut5.update_health(damage)
+                            if(self._hut5.hut_health() == 0):
+                                mm = 10000
     def Balloon_attackc(self):
         h1 = self._hut1.hut_health()
         h2 = self._hut2.hut_health()
@@ -1217,113 +1371,113 @@ class Game:
         w1 = self._wizard1.can_health()
         w2 = self._wizard2.can_health()
         town = self._town.get_health()
-        print(w1,w2,c1,c2," balloon",end=" ")
         self._pri = [w1,w2,c1,c2]
         self._listh = [h1, h2, h3, h4, h5, town]
         pos, size, height, width, maxsize, health_val, damage = self._cBalloon1.get_dimension()
         can1 = self._cannon1.can_health()
         can2 = self._cannon2.can_health()
-        mx = 100000
-        index = 10
-        for i in range(4):
-            if(self._pri[i]>0):
-                dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
-              
-                if(dif < mx):
-                    mx = dif
-                    index = i
-                    
-        print(mx,index,end=" ")            
-        
-        if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
-                    pos[0] += 1
-        elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
-                    pos[0] -= 1
-        elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] += 1
-        elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] -= 1
-        else:
-            if(index == 0):
-                self._wizard1.update_health(damage)
-
-                if(self._wizard1.can_health() == 0):
-
-                     mm = 10000
-
-            if(index == 1):
-
-                self._wizard2.update_health(damage)
-                if(self._wizard2.can_health() == 0):
-                            mm = 10000
-            if(index == 2):
-
-                self._cannon1.update_health(damage)
-                if(self._cannon1.can_health() == 0):
-                            mm = 10000
-            if(index == 3):
-
-                self._cannon2.update_health(damage)
-                if(self._cannon2.can_health() == 0):
-                            mm = 10000
-
-        if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
-            mm = 10000
+        if(health_val > 0):
+            mx = 100000
             index = 10
-            for i in range(5):
-
-                if(self._listh[i] > 0):
-
-                    dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
-                    if(dif < mm):
-                        mm = dif
+            for i in range(4):
+                if(self._pri[i]>0):
+                    dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
+                
+                    if(dif < mx):
+                        mx = dif
                         index = i
-
-            if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
-                self._cannon1.update_health(damage)
-
-            elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
-                self._cannon2.update_health(damage)
+                        
+            print(mx,index,end=" ")            
+            
+            if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
+                        pos[0] += 1
+            elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
+                        pos[0] -= 1
+            elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] += 1
+            elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] -= 1
             else:
+                if(index == 0):
+                    self._wizard1.update_health(damage)
 
-                # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
-                if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
-                    pos[0] += 1
-                elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
-                    pos[0] -= 1
-                elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] += 1
-                elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] -= 1
+                    if(self._wizard1.can_health() == 0):
+
+                        mm = 10000
+
+                if(index == 1):
+
+                    self._wizard2.update_health(damage)
+                    if(self._wizard2.can_health() == 0):
+                                mm = 10000
+                if(index == 2):
+
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                                mm = 10000
+                if(index == 3):
+
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                                mm = 10000
+
+            if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
+                mm = 10000
+                index = 10
+                for i in range(5):
+
+                    if(self._listh[i] > 0):
+
+                        dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                        if(dif < mm):
+                            mm = dif
+                            index = i
+
+                if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+                    self._cannon1.update_health(damage)
+
+                elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+                    self._cannon2.update_health(damage)
                 else:
-                    if(index == 0):
-                        self._hut1.update_health(damage)
 
-                        if(self._hut1.hut_health() == 0):
+                    # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+                    if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                        pos[0] += 1
+                    elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                        pos[0] -= 1
+                    elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] += 1
+                    elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] -= 1
+                    else:
+                        if(index == 0):
+                            self._hut1.update_health(damage)
 
-                            mm = 10000
+                            if(self._hut1.hut_health() == 0):
 
-                    if(index == 1):
+                                mm = 10000
 
-                        self._hut2.update_health(damage)
-                        if(self._hut2.hut_health() == 0):
-                            mm = 10000
-                    if(index == 2):
+                        if(index == 1):
 
-                        self._hut3.update_health(damage)
-                        if(self._hut3.hut_health() == 0):
-                            mm = 10000
-                    if(index == 3):
+                            self._hut2.update_health(damage)
+                            if(self._hut2.hut_health() == 0):
+                                mm = 10000
+                        if(index == 2):
 
-                        self._hut4.update_health(damage)
-                        if(self._hut4.hut_health() == 0):
-                            mm = 10000
-                    if(index == 4):
+                            self._hut3.update_health(damage)
+                            if(self._hut3.hut_health() == 0):
+                                mm = 10000
+                        if(index == 3):
 
-                        self._hut5.update_health(damage)
-                        if(self._hut5.hut_health() == 0):
-                            mm = 10000
-    
+                            self._hut4.update_health(damage)
+                            if(self._hut4.hut_health() == 0):
+                                mm = 10000
+                        if(index == 4):
+
+                            self._hut5.update_health(damage)
+                            if(self._hut5.hut_health() == 0):
+                                mm = 10000
+        
     def Balloon_attack1(self):
         h1 = self._hut1.hut_health()
         h2 = self._hut2.hut_health()
@@ -1341,106 +1495,107 @@ class Game:
         pos, size, height, width, maxsize, health_val, damage = self._Balloon2.get_dimension()
         can1 = self._cannon1.can_health()
         can2 = self._cannon2.can_health()
-        mx = 100000
-        index = 10
-        for i in range(4):
-            if(self._pri[i]>0):
-                dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
-              
-                if(dif < mx):
-                    mx = dif
-                    index = i
-                    
-        print(mx,index,end=" ")            
-        
-        if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
-                    pos[0] += 1
-        elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
-                    pos[0] -= 1
-        elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] += 1
-        elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] -= 1
-        else:
-            if(index == 0):
-                self._wizard1.update_health(damage)
-
-                if(self._wizard1.can_health() == 0):
-
-                     mm = 10000
-
-            if(index == 1):
-
-                self._wizard2.update_health(damage)
-                if(self._wizard2.can_health() == 0):
-                            mm = 10000
-            if(index == 2):
-
-                self._cannon1.update_health(damage)
-                if(self._cannon1.can_health() == 0):
-                            mm = 10000
-            if(index == 3):
-
-                self._cannon2.update_health(damage)
-                if(self._cannon2.can_health() == 0):
-                            mm = 10000
-
-        if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
-            mm = 10000
+        if(health_val > 0):
+            mx = 100000
             index = 10
-            for i in range(5):
-
-                if(self._listh[i] > 0):
-
-                    dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
-                    if(dif < mm):
-                        mm = dif
+            for i in range(4):
+                if(self._pri[i]>0):
+                    dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
+                
+                    if(dif < mx):
+                        mx = dif
                         index = i
-
-            if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
-                self._cannon1.update_health(damage)
-
-            elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
-                self._cannon2.update_health(damage)
+                        
+            print(mx,index,end=" ")            
+            
+            if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
+                        pos[0] += 1
+            elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
+                        pos[0] -= 1
+            elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] += 1
+            elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] -= 1
             else:
+                if(index == 0):
+                    self._wizard1.update_health(damage)
 
-                # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
-                if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
-                    pos[0] += 1
-                elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
-                    pos[0] -= 1
-                elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] += 1
-                elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] -= 1
+                    if(self._wizard1.can_health() == 0):
+
+                        mm = 10000
+
+                if(index == 1):
+
+                    self._wizard2.update_health(damage)
+                    if(self._wizard2.can_health() == 0):
+                                mm = 10000
+                if(index == 2):
+
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                                mm = 10000
+                if(index == 3):
+
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                                mm = 10000
+
+            if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
+                mm = 10000
+                index = 10
+                for i in range(5):
+
+                    if(self._listh[i] > 0):
+
+                        dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                        if(dif < mm):
+                            mm = dif
+                            index = i
+
+                if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+                    self._cannon1.update_health(damage)
+
+                elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+                    self._cannon2.update_health(damage)
                 else:
-                    if(index == 0):
-                        self._hut1.update_health(damage)
 
-                        if(self._hut1.hut_health() == 0):
+                    # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+                    if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                        pos[0] += 1
+                    elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                        pos[0] -= 1
+                    elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] += 1
+                    elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] -= 1
+                    else:
+                        if(index == 0):
+                            self._hut1.update_health(damage)
 
-                            mm = 10000
+                            if(self._hut1.hut_health() == 0):
 
-                    if(index == 1):
+                                mm = 10000
 
-                        self._hut2.update_health(damage)
-                        if(self._hut2.hut_health() == 0):
-                            mm = 10000
-                    if(index == 2):
+                        if(index == 1):
 
-                        self._hut3.update_health(damage)
-                        if(self._hut3.hut_health() == 0):
-                            mm = 10000
-                    if(index == 3):
+                            self._hut2.update_health(damage)
+                            if(self._hut2.hut_health() == 0):
+                                mm = 10000
+                        if(index == 2):
 
-                        self._hut4.update_health(damage)
-                        if(self._hut4.hut_health() == 0):
-                            mm = 10000
-                    if(index == 4):
+                            self._hut3.update_health(damage)
+                            if(self._hut3.hut_health() == 0):
+                                mm = 10000
+                        if(index == 3):
 
-                        self._hut5.update_health(damage)
-                        if(self._hut5.hut_health() == 0):
-                            mm = 10000
+                            self._hut4.update_health(damage)
+                            if(self._hut4.hut_health() == 0):
+                                mm = 10000
+                        if(index == 4):
+
+                            self._hut5.update_health(damage)
+                            if(self._hut5.hut_health() == 0):
+                                mm = 10000
                             
     def Balloon_attack(self):
         h1 = self._hut1.hut_health()
@@ -1459,106 +1614,107 @@ class Game:
         pos, size, height, width, maxsize, health_val, damage = self._Balloon1.get_dimension()
         can1 = self._cannon1.can_health()
         can2 = self._cannon2.can_health()
-        mx = 100000
-        index = 10
-        for i in range(4):
-            if(self._pri[i]>0):
-                dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
-              
-                if(dif < mx):
-                    mx = dif
-                    index = i
-                    
-        print(mx,index,end=" ")            
-        
-        if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
-                    pos[0] += 1
-        elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
-                    pos[0] -= 1
-        elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] += 1
-        elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
-                    pos[1] -= 1
-        else:
-            if(index == 0):
-                self._wizard1.update_health(damage)
-
-                if(self._wizard1.can_health() == 0):
-
-                     mm = 10000
-
-            if(index == 1):
-
-                self._wizard2.update_health(damage)
-                if(self._wizard2.can_health() == 0):
-                            mm = 10000
-            if(index == 2):
-
-                self._cannon1.update_health(damage)
-                if(self._cannon1.can_health() == 0):
-                            mm = 10000
-            if(index == 3):
-
-                self._cannon2.update_health(damage)
-                if(self._cannon2.can_health() == 0):
-                            mm = 10000
-
-        if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
-            mm = 10000
+        if(health_val > 0):
+            mx = 100000
             index = 10
-            for i in range(5):
-
-                if(self._listh[i] > 0):
-
-                    dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
-                    if(dif < mm):
-                        mm = dif
+            for i in range(4):
+                if(self._pri[i]>0):
+                    dif = abs(self._prix[i]-pos[0])+abs(self._priy[i]-pos[1])
+                
+                    if(dif < mx):
+                        mx = dif
                         index = i
-
-            if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
-                self._cannon1.update_health(damage)
-
-            elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
-                self._cannon2.update_health(damage)
+                        
+            print(mx,index,end=" ")            
+            
+            if(index != 10 and self._prix[index] > pos[0] and self._prix[index] != pos[0]):
+                        pos[0] += 1
+            elif (index != 10 and self._prix[index] < pos[0] and self._prix[index] != pos[0]):
+                        pos[0] -= 1
+            elif(index != 10 and self._priy[index] > pos[1] and self._priy[index]-5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] += 1
+            elif (index != 10 and self._priy[index] < pos[1] and self._priy[index]+5 != pos[1] and self._prix[index] == pos[0]):
+                        pos[1] -= 1
             else:
+                if(index == 0):
+                    self._wizard1.update_health(damage)
 
-                # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
-                if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
-                    pos[0] += 1
-                elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
-                    pos[0] -= 1
-                elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] += 1
-                elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
-                    pos[1] -= 1
+                    if(self._wizard1.can_health() == 0):
+
+                        mm = 10000
+
+                if(index == 1):
+
+                    self._wizard2.update_health(damage)
+                    if(self._wizard2.can_health() == 0):
+                                mm = 10000
+                if(index == 2):
+
+                    self._cannon1.update_health(damage)
+                    if(self._cannon1.can_health() == 0):
+                                mm = 10000
+                if(index == 3):
+
+                    self._cannon2.update_health(damage)
+                    if(self._cannon2.can_health() == 0):
+                                mm = 10000
+
+            if(w1 <=0 and w2 <=0 and c1<=0 and c2 <=0):
+                mm = 10000
+                index = 10
+                for i in range(5):
+
+                    if(self._listh[i] > 0):
+
+                        dif = abs(self._listx[i]-pos[0])+abs(self._listy[i]-pos[1])
+                        if(dif < mm):
+                            mm = dif
+                            index = i
+
+                if((can1 > 0) and (((pos[0]+2 == 56) and pos[1] == 7) or (pos[0]-2 == 56 and pos[1] == 7) or (pos[1]+2 == 7 and pos[0] == 56) or (pos[1]-2 == 7 and pos[0] == 56))):
+                    self._cannon1.update_health(damage)
+
+                elif((can2 > 0) and (((pos[0]+2 == 120) and pos[1] == 23) or (pos[0]-2 == 120 and pos[1] == 23) or (pos[1]+2 == 23 and pos[0] == 120) or (pos[1]-2 == 23 and pos[0] == 120))):
+                    self._cannon2.update_health(damage)
                 else:
-                    if(index == 0):
-                        self._hut1.update_health(damage)
 
-                        if(self._hut1.hut_health() == 0):
+                    # print("destyination:",self._listx[index],self._listy[ index],"index",index,end=" ")
+                    if(index != 10 and self._listx[index] > pos[0] and self._listx[index] != pos[0]):
+                        pos[0] += 1
+                    elif (index != 10 and self._listx[index] < pos[0] and self._listx[index] != pos[0]):
+                        pos[0] -= 1
+                    elif(index != 10 and self._listy[index] > pos[1] and self._listy[index]-5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] += 1
+                    elif (index != 10 and self._listy[index] < pos[1] and self._listy[index]+5 != pos[1] and self._listx[index] == pos[0]):
+                        pos[1] -= 1
+                    else:
+                        if(index == 0):
+                            self._hut1.update_health(damage)
 
-                            mm = 10000
+                            if(self._hut1.hut_health() == 0):
 
-                    if(index == 1):
+                                mm = 10000
 
-                        self._hut2.update_health(damage)
-                        if(self._hut2.hut_health() == 0):
-                            mm = 10000
-                    if(index == 2):
+                        if(index == 1):
 
-                        self._hut3.update_health(damage)
-                        if(self._hut3.hut_health() == 0):
-                            mm = 10000
-                    if(index == 3):
+                            self._hut2.update_health(damage)
+                            if(self._hut2.hut_health() == 0):
+                                mm = 10000
+                        if(index == 2):
 
-                        self._hut4.update_health(damage)
-                        if(self._hut4.hut_health() == 0):
-                            mm = 10000
-                    if(index == 4):
+                            self._hut3.update_health(damage)
+                            if(self._hut3.hut_health() == 0):
+                                mm = 10000
+                        if(index == 3):
 
-                        self._hut5.update_health(damage)
-                        if(self._hut5.hut_health() == 0):
-                            mm = 10000
+                            self._hut4.update_health(damage)
+                            if(self._hut4.hut_health() == 0):
+                                mm = 10000
+                        if(index == 4):
+
+                            self._hut5.update_health(damage)
+                            if(self._hut5.hut_health() == 0):
+                                mm = 10000
     
             
 # n counter
@@ -2984,20 +3140,34 @@ class Game:
         if(ch == 'q'):
             sys.exit()
         elif(ch == 'k'):
-            self._kingval = 1
+            if(self._queenval==0):
+                self._kingval = 1
+        elif(ch == 'o'):
+            if(self._kingval==0):
+                self._queenval = 1
         elif ch == 'd':
-            self._king.move(ch)
+            if(self._kingval==1):
+                self._king.move(ch)
+            if(self._queenval==1):
+                self._queen.move(ch)
         elif ch == 'a':
-            self._king.move(ch)
-            
+            if(self._kingval==1):
+                self._king.move(ch)
+            if(self._queenval==1):
+                self._queen.move(ch)
         elif ch == 'w':
-            self._king.move(ch)
-            
+            if(self._kingval==1):
+                self._king.move(ch)
+            if(self._queenval==1):
+                self._queen.move(ch)
         elif ch == 's':
-            self._king.move(ch)
-            
+            if(self._kingval==1):
+                self._king.move(ch)
+            if(self._queenval==1):
+                self._queen.move(ch)
         elif ch == ' ':
             self._kingattack_falg = 1
+            self._queenattack_falg = 1
         elif ch == 'p':
             self._pcounter += 1
         elif ch == 'm':
@@ -3081,8 +3251,12 @@ class Game:
             curr_time=time.time()-start_time
             if(move!=None):
                 replay.write("{} {}\n".format(move,itteration))
-            self.king_attack()
+            if(self._kingval==1):
+                self.king_attack()
+            if(self._queenval==1):
+                self.queen_attack()
             self.cannon_attack()
+            self.wizard_attack()
             # self.Balloon_attack()
             # self.king_sword_attck()
             self.placing()

@@ -127,6 +127,67 @@ class King(Item):
         else :
             self._health_val = int((1.5)*self._health_val)
 
+class Queen(Item):
+    def __init__(self, pos, size, height, width, maxsize,health_val,damage):
+        super().__init__(pos, size, height, width, maxsize,health_val,damage)
+        self._mov = 1
+  
+        # speed = 1
+            
+        self._structure = np.zeros(
+            (self._size[0], self._size[1]), dtype='object')
+        for i in range(self._size[0]):
+            for j in range(self._size[1]):
+                self._structure[i][j] = bg.green+' '+reset
+                if(j == 2 and i != 0 and i != size[0]-1):
+                    self._structure[i][j] = bg.black+'  '+reset
+                    self._structure[i][j] = 'K'+reset+bold
+        self._health = np.zeros(
+            (int(2), self._size[1]), dtype='object')
+        for i in range(2):
+            for j in range(size[1]):
+                if(self._health_val>50):
+                    self._health[i][j] = bg.green+' '+reset
+                elif (self._health_val>20):
+                    self._health[i][j] = bg.yellow+' '+reset
+                else:
+                    self._health[i][j] =bg.red+' '+reset
+                    
+    def item_pos(self):
+        return self._pos
+    def range_spell(self):
+        self._damage = 2 * self._damage
+        self._mov = 2 * self._mov
+    def move(self, ch):
+        if(ch == 'd'):
+            self._pos[0] = self._pos[0]+ self._mov
+            if(self._pos[0]+self._size[0] >= self._maxsize[0]-1):
+                self._pos[0] = self._maxsize[0] - self._size[0] - 3
+        elif(ch == 'a'):
+            self._pos[0] = self._pos[0]-self._mov
+            if(self._pos[0] <= 4):
+                self._pos[0] = 4
+        elif(ch == 'w'):
+            self._pos[1] = self._pos[1]-self._mov
+            if(self._pos[1] <= 4):
+                self._pos[1] = 1
+        elif(ch == 's'):
+            if(self._pos[1]+self._size[1] >= self._maxsize[1]-1):
+                self._pos[1] = self._maxsize[1] - self._size[1]-2
+            else:
+                self._pos[1] = self._pos[1]+self._mov
+                    
+                
+    def update_health(self,damage):
+        if(self._health_val>0):
+         self._health_val = self._health_val - damage
+        
+    def heal_spell(self):
+        if(int(1.5*self._health_val) > 100 ):
+            self._health_val = 100
+        else :
+            self._health_val = int((1.5)*self._health_val)
+
 class Hut(Item):
     def __init__(self, pos, size, height, width, maxsize,health_val,damage):
         super().__init__(pos, size, height, width, maxsize,health_val,damage)
